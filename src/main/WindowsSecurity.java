@@ -36,7 +36,6 @@ public class WindowsSecurity implements Runnable
   @Override
   public void run() {
     try {
-    //  frame.getParentFrame().setAlwaysOnTop(true);
      
       //this.terminal.getParentFrame().setDefaultCloseOperation(0);
       kill("explorer.exe"); // Kill explorer

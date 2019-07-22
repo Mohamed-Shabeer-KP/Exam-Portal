@@ -25,6 +25,7 @@ import static javafx.concurrent.Worker.State.FAILED;
   
 public class Browser extends JFrame {
  
+    
     private final JFXPanel jfxPanel = new JFXPanel();
     private WebEngine engine;
  
@@ -32,7 +33,7 @@ public class Browser extends JFrame {
     private final JLabel lblStatus = new JLabel();
 
 
-    private final JButton btnGo = new JButton("Go");
+    private final JButton btnGo = new JButton("Refresh");
     private final JTextField txtURL = new JTextField();
     private final JProgressBar progressBar = new JProgressBar();
  
@@ -43,7 +44,7 @@ public class Browser extends JFrame {
 
     
     private void initComponents() {
-        createScene();
+        createScene(); 
  
         ActionListener al = new ActionListener() {
             @Override 
@@ -52,6 +53,8 @@ public class Browser extends JFrame {
             }
         };
  
+        txtURL.setEditable(false);
+        
         btnGo.addActionListener(al);
         txtURL.addActionListener(al);
           
@@ -71,11 +74,15 @@ public class Browser extends JFrame {
         panel.add(topBar, BorderLayout.NORTH);
         panel.add(jfxPanel, BorderLayout.CENTER);
         panel.add(statusBar, BorderLayout.SOUTH);
-        
+      
+        this.addWindowListener(getWindowAdapter(this));
+      
         getContentPane().add(panel);
-        
+        this.setAlwaysOnTop(true);
+        this.setResizable(false);
         setPreferredSize(new Dimension(1024, 600));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+  
         pack();
 
     }
@@ -192,12 +199,23 @@ public class Browser extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
-                Browser browser = new Browser();
-                browser.setVisible(true);
-                browser.loadURL("http://oracle.com");
+   
+          
            }     
        });
     }
-}
+
+    private WindowListener getWindowAdapter(JFrame f) {
+         return new WindowAdapter() {
+  
+      @Override
+      public void windowIconified(WindowEvent we) {
+        f.setState(JFrame.NORMAL);
+        JOptionPane.showMessageDialog(f, "Cant Minimize");
+      }
+    };
+  }
+    }
+
 
 

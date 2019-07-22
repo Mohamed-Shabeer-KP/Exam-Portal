@@ -6,6 +6,7 @@
 package main;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -16,6 +17,7 @@ public class MainPage extends javax.swing.JFrame {
 
     
     public JPanel f;
+    
     /**
      * Creates new form NewJFrame
      */
@@ -36,8 +38,17 @@ public class MainPage extends javax.swing.JFrame {
 
         abc = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        pass_exitpassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        setExtendedState(2);
+        setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1000, 1000));
+        setResizable(false);
+
+        abc.setName(""); // NOI18N
 
         jButton1.setText("Click Here");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -46,22 +57,42 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("X");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout abcLayout = new javax.swing.GroupLayout(abc);
         abc.setLayout(abcLayout);
         abcLayout.setHorizontalGroup(
             abcLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(abcLayout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addGroup(abcLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(abcLayout.createSequentialGroup()
+                        .addGap(131, 131, 131)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(abcLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pass_exitpassword, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(135, Short.MAX_VALUE))
         );
         abcLayout.setVerticalGroup(
             abcLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(abcLayout.createSequentialGroup()
-                .addGap(118, 118, 118)
+                .addContainerGap()
+                .addGroup(abcLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(pass_exitpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(90, 90, 90)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(142, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
+
+        jButton2.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -80,10 +111,23 @@ public class MainPage extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Browser obj = new Browser();
+        obj.loadURL("www.google.com");
+        
         obj.setVisible(true);
-        this.setVisible(false);
+        
+     
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+    String pass = this.pass_exitpassword.getText();
+        if(pass.equals("pass"))
+            System.exit(0);
+        else
+             JOptionPane.showMessageDialog(f, "Wrong Password");
+     
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -117,8 +161,12 @@ public class MainPage extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainPage().setVisible(true);
+                
+              
+                
               MainPage f=new MainPage();
               f.start();
+              
             }
         });
     }
@@ -131,5 +179,7 @@ public class MainPage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel abc;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JPasswordField pass_exitpassword;
     // End of variables declaration//GEN-END:variables
 }
