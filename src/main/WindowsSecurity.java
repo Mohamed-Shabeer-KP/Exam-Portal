@@ -24,7 +24,7 @@ public class WindowsSecurity implements Runnable
   public WindowsSecurity(JPanel yourFrame)
   {
     frame = yourFrame;
-    //running=true;
+    running=true;
     new Thread(this).start();
   }
 
@@ -55,7 +55,7 @@ public class WindowsSecurity implements Runnable
          
       }
       
-      Runtime.getRuntime().exec("explorer.exe"); // Restart explorer
+      //Runtime.getRuntime().exec("explorer.exe"); // Restart explorer
     } catch (Exception e) {
 
     }
