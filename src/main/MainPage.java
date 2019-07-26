@@ -51,7 +51,8 @@ public class MainPage extends javax.swing.JFrame {
     private final JProgressBar progressBar = new JProgressBar();
     
     private JPanel main_panel;
-    private int count;
+    private int wrong_count;
+    private int correct_count;
     
     /**
      * Creates new form NewJFrame
@@ -59,7 +60,8 @@ public class MainPage extends javax.swing.JFrame {
     public MainPage() {
        
         main_panel=this.p_main;
-        count=0;
+        wrong_count=0;
+        correct_count=0;
         initComponents();  
     }
 
@@ -373,21 +375,25 @@ public class MainPage extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
     String pass = this.pass_exitpassword.getText();
-        if(pass.equals("pass"))
+        if(pass.equals("pass") && correct_count==0)
         {  try {
-            Runtime.getRuntime().exec("explorer.exe");
+        Runtime.getRuntime().exec("explorer.exe");
+        correct_count++;
         } catch (IOException ex) {
             Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        } 
         }
+        else if(pass.equals("pass") && correct_count==1)
+        {
         System.exit(0);
         }
         else 
         {
-        count++;
-        if(count>2)
+        wrong_count++;
+        if(wrong_count>2)
         {
         this.l_warning.setVisible(true);
-        this.l_attempt_count.setText(String.valueOf(count));
+        this.l_attempt_count.setText(String.valueOf(wrong_count));
         this.l_attempt_count.setVisible(true);
         this.l_attempt_info.setVisible(true);
         }   
