@@ -2,7 +2,7 @@
 
 <Form version="1.9" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="0"/>
     <Property name="alwaysOnTop" type="boolean" value="true"/>
     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
       <Color id="Hand Cursor"/>
@@ -36,17 +36,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="abc" alignment="0" max="32767" attributes="0"/>
+          <Component id="p_main" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="abc" alignment="1" max="32767" attributes="0"/>
+          <Component id="p_main" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="abc">
+    <Container class="javax.swing.JPanel" name="p_main">
       <Properties>
         <Property name="name" type="java.lang.String" value="" noResource="true"/>
       </Properties>
@@ -64,11 +64,11 @@
                           <Component id="pass_exitpassword" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btn_browser" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="91" max="32767" attributes="0"/>
+                          <EmptySpace pref="99" max="32767" attributes="0"/>
                           <Component id="l_warning" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="l_attempt_count" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="l_attempt_info" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -165,6 +165,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="!!! Wrong Password !!!"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="l_warning.setVisible(false);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="l_attempt_info">
           <Properties>
@@ -173,6 +176,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="time(s)"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="l_attempt_info.setVisible(false);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="l_attempt_count">
           <Properties>
@@ -181,6 +187,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="0"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="l_attempt_count.setVisible(false);"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
