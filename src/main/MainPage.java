@@ -381,7 +381,7 @@ public class MainPage extends javax.swing.JFrame {
         }
         System.exit(0);
         }
-        else
+        else 
         {
         count++;
         if(count>2)
