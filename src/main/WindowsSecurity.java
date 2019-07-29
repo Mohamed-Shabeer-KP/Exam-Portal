@@ -10,12 +10,16 @@ package main;
  * @author MOHAMED SHABEER KP
  */
 import java.awt.Robot;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import javax.swing.JFrame;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.swing.JPanel;
+import org.apache.commons.io.FileUtils;
 
 
 public class WindowsSecurity implements Runnable 
@@ -33,8 +37,7 @@ public class WindowsSecurity implements Runnable
      @Override
     public void run() {
         try {
-     
-      //this.terminal.getParentFrame().setDefaultCloseOperation(0);
+      elevate();      
       kill("explorer.exe"); // Kill explorer
       Robot robot = new Robot();
       while (running) {
@@ -50,9 +53,7 @@ public class WindowsSecurity implements Runnable
        while ((line = input.readLine()) != null) {
        pidInfo+=line; 
 }
-
        input.close();
-
        if(pidInfo.contains("Taskmgr.exe"))
        {
        kill("taskmgr.exe");
@@ -63,7 +64,7 @@ public class WindowsSecurity implements Runnable
     System.out.println(e);
     }
     }
-  
+
   public void stop()
   {
      this.running = false;
@@ -90,9 +91,53 @@ public class WindowsSecurity implements Runnable
         if(!string.equals("taskmgr.exe"))
       Runtime.getRuntime().exec("taskkill /F /IM " + string).waitFor();
      else
-      Runtime.getRuntime().exec("src//Elevate64.exe TASKKILL /F /IM Taskmgr.exe").waitFor(); 
-    } catch (Exception e) {
+        {
+         Runtime.getRuntime().exec("C:/exam_portal_config/Elevate64.exe TASKKILL /F /IM Taskmgr.exe").waitFor(); 
+        }
+        } catch (Exception e) {
     }
   }
+  
+   private void elevate() {
+     new File("C://exam_portal_config").mkdirs();
+    String dirName = "C:\\exam_portal_config";
+
+ try {
+ saveFileFromUrlWithJavaIO(dirName + "\\Elevate64.exe","https://bosscorp.page.link/EP_E");
+ } catch (MalformedURLException e) {
+ e.printStackTrace();
+ } catch (IOException e) {
+ e.printStackTrace();
+ }
+    }
+  
+    // Using Java IO
+ public static void saveFileFromUrlWithJavaIO(String fileName, String fileUrl)
+ throws MalformedURLException, IOException {
+ BufferedInputStream in = null;
+ FileOutputStream fout = null;
+ try {
+ in = new BufferedInputStream(new URL(fileUrl).openStream());
+ fout = new FileOutputStream(fileName);
+
+byte data[] = new byte[1024];
+ int count;
+ while ((count = in.read(data, 0, 1024)) != -1) {
+ fout.write(data, 0, count);
+ }
+ } finally {
+ if (in != null)
+ in.close();
+ if (fout != null)
+ fout.close();
+ }
+ }
+
+// Using Commons IO library
+ // Available at http://commons.apache.org/io/download_io.cgi
+ public static void saveFileFromUrlWithCommonsIO(String fileName,
+ String fileUrl) throws MalformedURLException, IOException {
+ FileUtils.copyURLToFile(new URL(fileUrl), new File(fileName));
+ }   
 }
 

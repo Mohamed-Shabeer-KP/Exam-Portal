@@ -116,6 +116,9 @@
           </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="pass_exitpassword">
+          <Events>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pass_exitpasswordMouseExited"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JDesktopPane" name="jDesktopPane1">
 
