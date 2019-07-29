@@ -41,8 +41,7 @@ public class MainPage extends javax.swing.JFrame {
       
     private final JFXPanel jfxPanel = new JFXPanel();
     private WebEngine engine;
- 
-    
+     
     private final JLabel lblStatus = new JLabel();
 
     private Panel panel;
@@ -52,7 +51,6 @@ public class MainPage extends javax.swing.JFrame {
     
     private JPanel main_panel;
     private int wrong_count;
-    private int correct_count;
     
     /**
      * Creates new form NewJFrame
@@ -61,7 +59,6 @@ public class MainPage extends javax.swing.JFrame {
        
         main_panel=this.p_main;
         wrong_count=0;
-        correct_count=0;
         initComponents();  
     }
 
@@ -375,18 +372,15 @@ public class MainPage extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
     String pass = this.pass_exitpassword.getText();
-        if(pass.equals("pass") && correct_count==0)
+        if(pass.equals("pass"))
         {  try {
         Runtime.getRuntime().exec("explorer.exe");
-        correct_count++;
+        System.exit(0);
         } catch (IOException ex) {
             Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
         } 
         }
-        else if(pass.equals("pass") && correct_count==1)
-        {
-        System.exit(0);
-        }
+  
         else 
         {
         wrong_count++;
