@@ -20,12 +20,12 @@ import javax.swing.JPanel;
 
 public class WindowsSecurity implements Runnable 
 {
-  public JPanel frame;
+ 
   public boolean running;
 
-  public WindowsSecurity(JPanel yourFrame)
+  public WindowsSecurity()
   {
-    frame = yourFrame;
+
     running=true;
     new Thread(this).start();
   }

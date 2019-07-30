@@ -5,6 +5,9 @@
  */
 package main;
 
+import chrriis.common.UIUtils;
+import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.web.WebEngine;
 import javax.swing.JFrame;
@@ -44,22 +47,22 @@ public class MainPage extends javax.swing.JFrame {
      
     private final JLabel lblStatus = new JLabel();
 
-    private Panel panel;
+  
     private final JButton btnGo = new JButton("Refresh");
     private final JTextField txtURL = new JTextField();
     private final JProgressBar progressBar = new JProgressBar();
     
-    private JPanel main_panel;
+    private JPanel browser_panel;
     private int wrong_count;
     
     /**
      * Creates new form NewJFrame
      */
     public MainPage() {
-       
-        main_panel=this.p_main;
-        wrong_count=0;
         initComponents();  
+        browser_panel=this.p_browser;
+        wrong_count=0;
+       
     }
 
     /**
@@ -76,16 +79,17 @@ public class MainPage extends javax.swing.JFrame {
         btn_browser = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         pass_exitpassword = new javax.swing.JPasswordField();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
-        p_browser = new javax.swing.JPanel();
         l_warning = new javax.swing.JLabel();
         l_attempt_info = new javax.swing.JLabel();
         l_attempt_count = new javax.swing.JLabel();
+        p_browser = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Exam Portal");
         setAlwaysOnTop(true);
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         setExtendedState(2);
+        setName("main_frame"); // NOI18N
         setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(1000, 1000));
         setResizable(false);
@@ -111,28 +115,6 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
-        p_browser.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(51, 0, 255)));
-        p_browser.setLayout(new java.awt.BorderLayout());
-
-        jDesktopPane1.setLayer(p_browser, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(p_browser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(p_browser, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         l_warning.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         l_warning.setForeground(new java.awt.Color(255, 0, 51));
         l_warning.setText("!!! Wrong Password !!!");
@@ -146,6 +128,9 @@ public class MainPage extends javax.swing.JFrame {
         l_attempt_count.setText("0");
         l_attempt_count.setVisible(false);
 
+        p_browser.setBorder(javax.swing.BorderFactory.createMatteBorder(3, 3, 3, 3, new java.awt.Color(0, 0, 204)));
+        p_browser.setLayout(new java.awt.BorderLayout());
+
         javax.swing.GroupLayout p_mainLayout = new javax.swing.GroupLayout(p_main);
         p_main.setLayout(p_mainLayout);
         p_mainLayout.setHorizontalGroup(
@@ -153,7 +138,7 @@ public class MainPage extends javax.swing.JFrame {
             .addGroup(p_mainLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(p_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDesktopPane1)
+                    .addComponent(p_browser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(p_mainLayout.createSequentialGroup()
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -180,7 +165,7 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(l_attempt_info)
                     .addComponent(l_attempt_count))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDesktopPane1)
+                .addComponent(p_browser, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -207,167 +192,23 @@ public class MainPage extends javax.swing.JFrame {
 
     
     private void btn_browserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browserActionPerformed
-    create_browser();
-    loadURL("www.google.com");
-   
-    }
-           
-  private void create_browser()
-  {
-     JPanel panel =  this.p_browser;
-     
-   
-        createScene(); 
- 
-        ActionListener al = new ActionListener() {
-            @Override 
-            public void actionPerformed(ActionEvent e) {
-                loadURL(txtURL.getText());
-            }
-        };
- 
-        txtURL.setEditable(false);
-        txtURL.setVisible(false);// ----------remove link visibility
-        btnGo.addActionListener(al);
-        txtURL.addActionListener(al);
-          
-        progressBar.setPreferredSize(new Dimension(150, 18));
-        progressBar.setStringPainted(true);
-  
-        JPanel topBar = new JPanel(new BorderLayout());
-        topBar.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
-        topBar.add(txtURL, BorderLayout.CENTER); //----------remove link visibility
-        topBar.add(btnGo, BorderLayout.WEST);
- 
-        JPanel statusBar = new JPanel(new BorderLayout());
-        statusBar.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
-        statusBar.add(lblStatus, BorderLayout.CENTER);
-        statusBar.add(progressBar, BorderLayout.EAST);
- 
-        panel.add(topBar, BorderLayout.NORTH);
-        panel.add(jfxPanel, BorderLayout.CENTER);
-        panel.add(statusBar, BorderLayout.SOUTH);
-      
-        this.addWindowListener(getWindowAdapter(this));
-  }
-  private void createScene() {
- 
-        Platform.runLater(new Runnable() {
-            @Override 
-            public void run() {
- 
-                WebView view = new WebView();
-                engine = view.getEngine();
- 
-                engine.titleProperty().addListener(new ChangeListener<String>() {
-                    @Override
-                    public void changed(ObservableValue<? extends String> observable, String oldValue, final String newValue) {
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override 
-                            public void run() {
-                             
-                            }
-                        });
-                    }
-                });
- 
-                engine.setOnStatusChanged(new EventHandler<WebEvent<String>>() {
-                    @Override 
-                    public void handle(final WebEvent<String> event) {
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override 
-                            public void run() {
-                                lblStatus.setText(event.getData());
-                            }
-                        });
-                    }
-                });
- 
-                engine.locationProperty().addListener(new ChangeListener<String>() {
-                    @Override
-                    public void changed(ObservableValue<? extends String> ov, String oldValue, final String newValue) {
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override 
-                            public void run() {
-                                txtURL.setText(newValue);
-                            }
-                        });
-                    }
-                });
- 
-                engine.getLoadWorker().workDoneProperty().addListener(new ChangeListener<Number>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, final Number newValue) {
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override 
-                            public void run() {
-                                progressBar.setValue(newValue.intValue());
-                            }
-                        });
-                    }
-                });
-
-                engine.getLoadWorker()
-                        .exceptionProperty()
-                        .addListener(new ChangeListener<Throwable>() {
- 
-                            public void changed(ObservableValue<? extends Throwable> o, Throwable old, final Throwable value) {
-                                if (engine.getLoadWorker().getState() == FAILED) {
-                                    SwingUtilities.invokeLater(new Runnable() {
-                                        @Override public void run() {
-                                            JOptionPane.showMessageDialog(
-                                                    panel,
-                                                    (value != null) ?
-                                                    engine.getLocation() + "\n" + value.getMessage() :
-                                                    engine.getLocation() + "\nUnexpected error.",
-                                                    "Loading error...",
-                                                    JOptionPane.ERROR_MESSAGE);
-                                        }
-                                    });
-                                }
-                            }
-                        });
-
-                jfxPanel.setScene(new Scene(view));
-            }
-        });
-    }
- 
-    public void loadURL(final String url) {
-        Platform.runLater(new Runnable() {
-            @Override 
-            public void run() {
-                String tmp = toURL(url);
- 
-                if (tmp == null) {
-                    tmp = toURL("http://" + url);
-                }
- 
-                engine.load(tmp);
-            }
-        });
-    }
-
-    private static String toURL(String str) {
-        try {
-            return new URL(str).toExternalForm();
-        } catch (MalformedURLException exception) {
-                return null;
-        }}
-   
-
-    private WindowListener getWindowAdapter(JFrame f) {
-         return new WindowAdapter() {
-  
-      @Override
-      public void windowIconified(WindowEvent we) {
-        f.setState(JFrame.NORMAL);
-        JOptionPane.showMessageDialog(f, "Cant Minimize");
-      }
-    };
-     
-        
+    createContent("www.google.com");  
     }//GEN-LAST:event_btn_browserActionPerformed
+
+ public  void createContent(String link) {   
+    JPanel contentPane = new JPanel(new BorderLayout());   
+    JPanel webBrowserPanel = new JPanel(new BorderLayout());   
+    webBrowserPanel.setBorder(BorderFactory.createTitledBorder("Exam Window"));  
+    
+    final JWebBrowser webBrowser = new JWebBrowser(); 
+    webBrowser.setMenuBarVisible(false);
+    webBrowser.setLocationBarVisible(false);
+    webBrowser.navigate(link);   
+    webBrowserPanel.add(webBrowser, BorderLayout.CENTER);   
+    contentPane.add(webBrowserPanel, BorderLayout.CENTER);   
+
+    browser_panel.add(contentPane, BorderLayout.CENTER);
+}
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
@@ -427,28 +268,29 @@ public class MainPage extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+    NativeInterface.open();   
+    UIUtils.setPreferredLookAndFeel();   
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new MainPage().setVisible(true);
+              new MainPage().setVisible(true);
               MainPage f=new MainPage();
               f.start();
               
             }
         });
+        NativeInterface.runEventPump();   
     }
     
   public void start()
   {
-      WindowsSecurity obj = new WindowsSecurity(main_panel);
+      WindowsSecurity obj = new WindowsSecurity();
   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_browser;
     private javax.swing.JButton jButton2;
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel l_attempt_count;
     private javax.swing.JLabel l_attempt_info;
     private javax.swing.JLabel l_warning;
