@@ -278,7 +278,7 @@ public class MainPage extends javax.swing.JFrame {
         browser_panel.removeAll();
         browser_panel.revalidate();
         browser_panel.repaint();
-        pass_exitpassword.requestFocus();
+       
     }//GEN-LAST:event_pass_exitpasswordMouseClicked
 
     /**
