@@ -50,6 +50,7 @@ public class MainPage extends javax.swing.JFrame {
     private JFrame browser_frame;
     private JPanel browser_panel;
     private JPasswordField pass;
+    private JButton exitpassfieldinit;
     private int wrong_count;
     
     /**
@@ -60,6 +61,7 @@ public class MainPage extends javax.swing.JFrame {
         browser_frame=this;
         browser_panel=this.p_browser;
         pass=pass_exitpassword;
+        exitpassfieldinit=this.b_exitpassfieldinit;
         wrong_count=0;
        
     }
@@ -83,6 +85,7 @@ public class MainPage extends javax.swing.JFrame {
         l_attempt_count = new javax.swing.JLabel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         p_browser = new javax.swing.JPanel();
+        b_exitpassfieldinit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Exam Portal");
@@ -119,6 +122,7 @@ public class MainPage extends javax.swing.JFrame {
                 pass_exitpasswordMouseClicked(evt);
             }
         });
+        pass_exitpassword.setVisible(false);
 
         l_warning.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         l_warning.setForeground(new java.awt.Color(255, 0, 51));
@@ -133,7 +137,6 @@ public class MainPage extends javax.swing.JFrame {
         l_attempt_count.setText("0");
         l_attempt_count.setVisible(false);
 
-        p_browser.setBorder(javax.swing.BorderFactory.createMatteBorder(3, 3, 3, 3, new java.awt.Color(0, 0, 204)));
         p_browser.setLayout(new java.awt.BorderLayout());
 
         jDesktopPane1.setLayer(p_browser, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -155,6 +158,13 @@ public class MainPage extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        b_exitpassfieldinit.setText("Enter Password to Exit");
+        b_exitpassfieldinit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_exitpassfieldinitActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout p_mainLayout = new javax.swing.GroupLayout(p_main);
         p_main.setLayout(p_mainLayout);
         p_mainLayout.setHorizontalGroup(
@@ -166,10 +176,12 @@ public class MainPage extends javax.swing.JFrame {
                     .addGroup(p_mainLayout.createSequentialGroup()
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pass_exitpassword, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(b_exitpassfieldinit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pass_exitpassword, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_browser)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                         .addComponent(l_warning)
                         .addGap(18, 18, 18)
                         .addComponent(l_attempt_count)
@@ -187,7 +199,8 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(btn_browser, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(l_warning)
                     .addComponent(l_attempt_info)
-                    .addComponent(l_attempt_count))
+                    .addComponent(l_attempt_count)
+                    .addComponent(b_exitpassfieldinit))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jDesktopPane1)
                 .addContainerGap())
@@ -281,6 +294,13 @@ public class MainPage extends javax.swing.JFrame {
        
     }//GEN-LAST:event_pass_exitpasswordMouseClicked
 
+    private void b_exitpassfieldinitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_exitpassfieldinitActionPerformed
+        pass.setVisible(true);
+        exitpassfieldinit.setVisible(false);
+        browser_frame.revalidate();
+        browser_frame.repaint();
+    }//GEN-LAST:event_b_exitpassfieldinitActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -329,6 +349,7 @@ public class MainPage extends javax.swing.JFrame {
   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton b_exitpassfieldinit;
     private javax.swing.JButton btn_browser;
     private javax.swing.JButton jButton2;
     private javax.swing.JDesktopPane jDesktopPane1;
