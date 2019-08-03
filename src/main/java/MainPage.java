@@ -53,12 +53,14 @@ public class MainPage extends javax.swing.JFrame {
     private JPasswordField pass;
     private JButton exitpassfieldinit;
     private int wrong_count;
+    private DatabaseOp db;
     
     /**
      * Creates new form NewJFrame
      */
     public MainPage() {
-        initComponents();  
+        initComponents(); 
+        db = new DatabaseOp();
         this.addWindowListener(getWindowAdapter());
         
         browser_frame=this;
@@ -225,11 +227,11 @@ public class MainPage extends javax.swing.JFrame {
 }
 
     private void btn_browserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browserActionPerformed
-    createContent("www.google.com");  
+    createBrowser();  
     }//GEN-LAST:event_btn_browserActionPerformed
 
- public  void createContent(String link) {   
-     JourneyBrowserView browser = new JourneyBrowserView("https://google.com");   
+ public  void createBrowser() {   
+        JourneyBrowserView browser = new JourneyBrowserView(db.getExamLink());   
         browser_panel.add(browser, BorderLayout.CENTER);
         browser_panel.updateUI();
 }
@@ -237,7 +239,7 @@ public class MainPage extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
     String pass = this.pass_exitpassword.getText();
-        if(pass.equals("pass"))
+        if(pass.equals(db.getExitPassword()))
         {  try {
         Runtime.getRuntime().exec("explorer.exe");
         System.exit(0);
@@ -331,16 +333,16 @@ public class MainPage extends javax.swing.JFrame {
   }
   
   public void AppState() throws IOException
-  {
-      DatabaseOp db=new DatabaseOp();
-              
+  {    
                 try {
                     db.initfirebase();
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
                 }
-              
-              if(!db.getState())
+                
+              db.getData();
+                
+              if(db.getAppState() == 0)
               {
               JOptionPane.showMessageDialog(browser_frame, "There is no active examination");
               Runtime.getRuntime().exec("explorer.exe");
