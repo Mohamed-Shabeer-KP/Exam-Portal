@@ -30,7 +30,16 @@ import java.util.logging.Logger;
  */
 public class DatabaseOp {
     
-    public int  app_state=0;
+    private int app_state;
+    private String exit_password;
+    private String exam_link;
+    
+    public DatabaseOp()
+    {
+    this.app_state=0;
+    this.exam_link="";
+    this.exit_password="";
+    }
 
     public void initfirebase() throws FileNotFoundException
     {
@@ -47,16 +56,16 @@ public class DatabaseOp {
                FirebaseApp.initializeApp(options);
     }
       
-    public boolean getState()
+    public void getData()
     {
      final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference basic_ref = database.getReference("main");
     basic_ref.addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            app_state = Integer.parseInt((String) dataSnapshot.child("app_state").getValue());
-          //  hoursperday = Integer.parseInt((String) dataSnapshot.child("hoursperday").getValue());
-       
+            app_state = Integer.parseInt((String) dataSnapshot.child("app_state").getValue());   
+            exam_link = (String) dataSnapshot.child("exam_link").getValue();   
+            exit_password =(String) dataSnapshot.child("exit_password").getValue();   
         }
         
         @Override
@@ -70,8 +79,22 @@ public class DatabaseOp {
                   } catch (InterruptedException ex) {
                       Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
                   }
-    
-        return app_state==1;
     }
+    
+    int getAppState()
+    {
+        return app_state;
+    }
+    
+    String getExitPassword()
+    {
+        return exit_password;
+    }
+    
+    String getExamLink()
+    {  
+        return exam_link;
+    }
+
 }
 
