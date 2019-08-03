@@ -66,8 +66,8 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="pass_exitpassword" min="-2" pref="150" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btn_browser" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="6" max="32767" attributes="0"/>
+                          <Component id="btn_browser" min="-2" pref="100" max="-2" attributes="0"/>
+                          <EmptySpace pref="115" max="32767" attributes="0"/>
                           <Component id="l_warning" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="l_attempt_count" min="-2" max="-2" attributes="0"/>
@@ -86,11 +86,11 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="pass_exitpassword" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btn_browser" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                       <Component id="l_warning" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="l_attempt_info" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="l_attempt_count" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="b_exitpassfieldinit" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_browser" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jDesktopPane1" max="32767" attributes="0"/>
@@ -102,7 +102,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btn_browser">
           <Properties>
-            <Property name="text" type="java.lang.String" value="HOME"/>
+            <Property name="text" type="java.lang.String" value="EXAM"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_browserActionPerformed"/>
@@ -179,7 +179,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="p_browser" pref="408" max="32767" attributes="0"/>
+                      <Component id="p_browser" pref="444" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>

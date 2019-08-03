@@ -1,5 +1,5 @@
 apply plugin: 'java'
-
+apply plugin: 'application'
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
@@ -11,12 +11,12 @@ sourceCompatibility = '1.8'
 // prefer. In this case NetBeans will not add these tasks but you may rely on
 // your own implementation.
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'hello'
+    ext.mainClass = 'MainPage'
 }
 
 repositories {
-  //  mavenCentral()
-       jcenter()
+     mavenCentral()
+     jcenter()
      maven { url "https://jitpack.io" }
     // You may define additional repositories, or even remove "mavenCentral()".
     // Read more about repositories here:
@@ -24,7 +24,8 @@ repositories {
 }
 
 dependencies {
-        compile 'com.github.codebrig:journey:0.3.3-online'
+        implementation 'com.github.codebrig:journey:0.3.3-online'
+        implementation 'com.google.firebase:firebase-admin:6.9.0'
     // TODO: Add dependencies here ...
     // You can read more about how to add dependency here:
     //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:how_to_declare_your_dependencies
