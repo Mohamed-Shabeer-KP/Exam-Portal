@@ -54,6 +54,7 @@ public class MainPage extends javax.swing.JFrame {
     private JButton exitpassfieldinit;
     private int wrong_count;
     private DatabaseOp db;
+    private JourneyBrowserView browser;
     
     /**
      * Creates new form NewJFrame
@@ -199,8 +200,8 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(l_attempt_info)
                     .addComponent(l_attempt_count)
                     .addComponent(b_exitpassfieldinit)
-                    .addComponent(btn_browser, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(btn_browser))
+                .addGap(12, 12, 12)
                 .addComponent(jDesktopPane1)
                 .addContainerGap())
         );
@@ -227,11 +228,11 @@ public class MainPage extends javax.swing.JFrame {
 }
 
     private void btn_browserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browserActionPerformed
-    createBrowser();  
+    createBrowser(db.getExamLink());  
     }//GEN-LAST:event_btn_browserActionPerformed
 
- public  void createBrowser() {   
-        JourneyBrowserView browser = new JourneyBrowserView(db.getExamLink());   
+ public  void createBrowser(String link) {   
+        browser = new JourneyBrowserView(link);   
         browser_panel.add(browser, BorderLayout.CENTER);
         browser_panel.updateUI();
 }
@@ -285,28 +286,25 @@ public class MainPage extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
+            /* Set the Nimbus look and feel */
+            //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+            /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+            * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+            */
+            
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+  
+        
         //</editor-fold>
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -315,8 +313,8 @@ public class MainPage extends javax.swing.JFrame {
                 try {
                    
                     MainPage f=new MainPage();
-                    f.secureWindow();
                     f.AppState();
+                    f.secureWindow();
                     f.setVisible(true);
                     
                     } catch (IOException ex) {
@@ -329,7 +327,7 @@ public class MainPage extends javax.swing.JFrame {
     
   public void secureWindow()
   {
-      WindowsSecurity obj = new WindowsSecurity();
+      WindowsSecurity obj = new WindowsSecurity(browser_frame,this);
   }
   
   public void AppState() throws IOException
@@ -345,7 +343,6 @@ public class MainPage extends javax.swing.JFrame {
               if(db.getAppState() == 0)
               {
               JOptionPane.showMessageDialog(browser_frame, "There is no active examination");
-              Runtime.getRuntime().exec("explorer.exe");
               System.exit(0);
               } 
   }
