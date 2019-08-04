@@ -10,23 +10,30 @@
  * @author MOHAMED SHABEER KP
  */
 import java.awt.Robot;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 
 public class WindowsSecurity implements Runnable 
 {
  
-  public boolean running;
+  private boolean running;
+  private JFrame b_frame;
+  private DatabaseOp db;
 
-  public WindowsSecurity()
+  public WindowsSecurity(JFrame b_frame,DatabaseOp db)
   {
-
     running=true;
+    this.b_frame = b_frame;
+    this.db = db;
     new Thread(this).start();
   }
   
@@ -38,6 +45,26 @@ public class WindowsSecurity implements Runnable
       kill("explorer.exe"); // Kill explorer
       Robot robot = new Robot();
       while (running) {
+          
+       db.getData();
+       
+       if(db.getAppState() == 0)
+       {
+         ActionListener taskPerformer = new ActionListener() {
+             @Override
+             public void actionPerformed(ActionEvent ae) {
+             JOptionPane.showMessageDialog(b_frame, "There is no active examination");
+             }
+        };
+        Timer timer = new Timer(100 ,taskPerformer);
+        timer.setRepeats(false);
+        timer.start();
+
+        Thread.sleep(5000L);
+        Runtime.getRuntime().exec("explorer.exe");
+        System.exit(0);
+       }  
+       
        sleep(30L);
        releaseKeys(robot);
        sleep(15L);

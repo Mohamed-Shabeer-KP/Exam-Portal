@@ -86,6 +86,7 @@ public class MainPage extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         p_browser = new javax.swing.JPanel();
         b_exitpassfieldinit = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Exam Portal");
@@ -101,8 +102,10 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
+        p_main.setBackground(new java.awt.Color(255, 255, 255));
         p_main.setName(""); // NOI18N
 
+        btn_browser.setBackground(new java.awt.Color(153, 255, 153));
         btn_browser.setText("EXAM");
         btn_browser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,6 +113,7 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(255, 153, 153));
         jButton2.setText("X");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,6 +141,7 @@ public class MainPage extends javax.swing.JFrame {
         l_attempt_count.setText("0");
         l_attempt_count.setVisible(false);
 
+        p_browser.setBackground(new java.awt.Color(203, 255, 255));
         p_browser.setLayout(new java.awt.BorderLayout());
 
         jDesktopPane1.setLayer(p_browser, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -154,10 +159,11 @@ public class MainPage extends javax.swing.JFrame {
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(p_browser, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                .addComponent(p_browser, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
+        b_exitpassfieldinit.setBackground(new java.awt.Color(173, 234, 255));
         b_exitpassfieldinit.setText("Enter Password to Exit");
         b_exitpassfieldinit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,15 +171,28 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 26, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout p_mainLayout = new javax.swing.GroupLayout(p_main);
         p_main.setLayout(p_mainLayout);
         p_mainLayout.setHorizontalGroup(
             p_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(p_mainLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p_mainLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(p_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDesktopPane1)
-                    .addGroup(p_mainLayout.createSequentialGroup()
+                .addGroup(p_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jDesktopPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, p_mainLayout.createSequentialGroup()
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(b_exitpassfieldinit)
@@ -181,12 +200,13 @@ public class MainPage extends javax.swing.JFrame {
                         .addComponent(pass_exitpassword, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_browser, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
                         .addComponent(l_warning)
                         .addGap(18, 18, 18)
                         .addComponent(l_attempt_count)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(l_attempt_info)))
+                        .addComponent(l_attempt_info))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         p_mainLayout.setVerticalGroup(
@@ -203,6 +223,8 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(btn_browser))
                 .addGap(12, 12, 12)
                 .addComponent(jDesktopPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -327,7 +349,7 @@ public class MainPage extends javax.swing.JFrame {
     
   public void secureWindow()
   {
-      WindowsSecurity obj = new WindowsSecurity(browser_frame,this);
+      WindowsSecurity obj = new WindowsSecurity(browser_frame,db);
   }
   
   public void AppState() throws IOException
@@ -362,6 +384,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JButton btn_browser;
     private javax.swing.JButton jButton2;
     private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel l_attempt_count;
     private javax.swing.JLabel l_attempt_info;
     private javax.swing.JLabel l_warning;
