@@ -19,29 +19,68 @@ import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import java.awt.Robot;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 /**
  *
  * @author MOHAMED SHABEER KP
  */
-public class DatabaseOp {
+public class DatabaseOp implements Runnable  {
     
     private int app_state;
     private String exit_password;
     private String exam_link;
+    private JFrame f;
     
-    public DatabaseOp()
+    public DatabaseOp(JFrame f)
     {
     this.app_state=0;
     this.exam_link="";
     this.exit_password="";
+    this.f=f;
+    new Thread(this).start();
     }
+    
+      @Override
+    public void run() {
+        try {
+            
+        SplashScreen s=new SplashScreen();
+        s.setVisible(true);
+        Thread t=Thread.currentThread();
+        try {
+            t.sleep(10000L);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        s.dispose();
+        SwingUtilities.invokeLater(new Runnable(){
+            public void run()
+            {
+                //opening the main application
+                 f.setVisible(true);
+            }
+        });
+      
+    } catch (Exception e) {
+    System.out.println(e);
+    }
+    }
+
 
     public void initfirebase() throws FileNotFoundException
     {
@@ -73,14 +112,10 @@ public class DatabaseOp {
         @Override
         public void onCancelled(DatabaseError databaseError) {
             System.out.println("Error");// ...
-        }
+        }    
     });
     
-      try {
-                      Thread.sleep(8000L);
-                  } catch (InterruptedException ex) {
-                      Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-                  }
+     
     }
     
     int getAppState()

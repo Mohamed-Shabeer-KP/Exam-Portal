@@ -29,8 +29,6 @@ import java.util.logging.Logger;
  */
 public class MainPage extends javax.swing.JFrame {
 
- 
-    
     private JFrame browser_frame;
     private JPanel browser_panel;
     private JPasswordField pass;
@@ -44,7 +42,7 @@ public class MainPage extends javax.swing.JFrame {
      */
     public MainPage() {
         initComponents();
-        db = new DatabaseOp();
+        db = new DatabaseOp(this);
         this.addWindowListener(getWindowAdapter());
         
         browser_frame=this;
@@ -80,9 +78,10 @@ public class MainPage extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Exam Portal");
         setAlwaysOnTop(true);
-        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(2);
         setName("main_frame"); // NOI18N
+        setUndecorated(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -417,10 +416,9 @@ public class MainPage extends javax.swing.JFrame {
                 try {
                    
                     MainPage f=new MainPage();
-                    f.AppState();
+                    f.appState();
                     f.secureWindow();
-                    f.setVisible(true);
-                    
+                
                     } catch (IOException ex) {
                     Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -434,7 +432,7 @@ public class MainPage extends javax.swing.JFrame {
       WindowsSecurity obj = new WindowsSecurity(browser_frame,db);
   }
   
-  public void AppState() throws IOException
+  public void appState() throws IOException
   {    
                 try {
                     db.initfirebase();
@@ -443,13 +441,21 @@ public class MainPage extends javax.swing.JFrame {
                 }
                 
               db.getData();
-                
+              
+                 try {
+                Thread.sleep(5000L);
+                 } catch (InterruptedException ex) {
+                Logger.getLogger(DatabaseOp.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+                 
               if(db.getAppState() == 0)
               {
               JOptionPane.showMessageDialog(browser_frame, "There is no active examination");
               System.exit(0);
               } 
   }
+  
+
   
    private WindowAdapter getWindowAdapter() {
     return new WindowAdapter() {
