@@ -29,7 +29,7 @@ public class SplashScreen extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setUndecorated(true);
-        img = new ImageIcon("res/df.jpg");
+        img = new ImageIcon("res/splash.jpg");
         imglabel = new JLabel(img);
         add(imglabel);
         setLayout(null);
