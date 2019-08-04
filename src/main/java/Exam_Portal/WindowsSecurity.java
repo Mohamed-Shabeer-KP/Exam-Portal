@@ -1,4 +1,4 @@
-package Main;
+package Exam_Portal;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

@@ -1,4 +1,4 @@
-package Main;
+package Exam_Portal;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,7 +28,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -84,8 +86,8 @@ public class DatabaseOp implements Runnable  {
 
     public void initfirebase() throws FileNotFoundException
     {
-                File f = new File("res/firebaseconfig.json");
-                FileInputStream serviceAccount = new FileInputStream(f);
+        
+                InputStream serviceAccount  =   getClass().getResourceAsStream("/firebaseconfig.json");
                 FirebaseOptions options = null;
                 try {
                     options = new FirebaseOptions.Builder()
