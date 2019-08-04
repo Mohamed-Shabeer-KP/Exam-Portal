@@ -39,7 +39,7 @@ sourceSets {
 }
 
 jar {
-    archiveName = 'Glavna.jar'
+    archiveName = 'ASAS-Exam-Portal.jar'
 
     manifest {attributes 'Main-Class': 'Main.MainPage'}
 

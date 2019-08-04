@@ -45,7 +45,7 @@ public class DatabaseOp {
 
     public void initfirebase() throws FileNotFoundException
     {
-                File f = new File("data/asas-exam-portal-firebase-adminsdk-dixej-8f5f170638.json");
+                File f = new File("res/firebaseconfig.json");
                 FileInputStream serviceAccount = new FileInputStream(f);
                 FirebaseOptions options = null;
                 try {
