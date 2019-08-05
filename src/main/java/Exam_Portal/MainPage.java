@@ -43,6 +43,7 @@ public class MainPage extends javax.swing.JFrame {
     public MainPage() {
         initComponents();
         db = new DatabaseOp(this);
+        db.thread_start(db);
         this.addWindowListener(getWindowAdapter());
         
         browser_frame=this;
@@ -81,7 +82,6 @@ public class MainPage extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(2);
         setName("main_frame"); // NOI18N
-        setUndecorated(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -371,7 +371,6 @@ public class MainPage extends javax.swing.JFrame {
         browser_panel.removeAll();
         browser_panel.revalidate();
         browser_panel.repaint();
-       
     }//GEN-LAST:event_pass_exitpasswordMouseClicked
 
     private void b_exitpassfieldinitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_exitpassfieldinitActionPerformed
@@ -413,15 +412,9 @@ public class MainPage extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                try {
-                   
-                    MainPage f=new MainPage();
-                    f.appState();
-                    f.secureWindow();
+                MainPage f=new MainPage();
                 
-                    } catch (IOException ex) {
-                    Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                f.secureWindow();
             }
         });
    
@@ -429,33 +422,15 @@ public class MainPage extends javax.swing.JFrame {
     
   public void secureWindow()
   {
-      WindowsSecurity obj = new WindowsSecurity(browser_frame,db);
+      
+        try {
+            Thread.sleep(5000L);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
+  new WindowsSecurity(browser_frame,db);
   }
-  
-  public void appState() throws IOException
-  {    
-                try {
-                    db.initfirebase();
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-              db.getData();
-              
-                 try {
-                Thread.sleep(9000L);
-                 } catch (InterruptedException ex) {
-                Logger.getLogger(DatabaseOp.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-                 
-              if(db.getAppState() == 0)
-              {
-              JOptionPane.showMessageDialog(browser_frame, "There is no active examination");
-              System.exit(0);
-              } 
-  }
-  
-
   
    private WindowAdapter getWindowAdapter() {
     return new WindowAdapter() {

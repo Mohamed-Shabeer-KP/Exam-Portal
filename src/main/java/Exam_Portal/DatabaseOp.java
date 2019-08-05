@@ -47,6 +47,7 @@ public class DatabaseOp implements Runnable  {
     private String exit_password;
     private String exam_link;
     private JFrame f;
+    private DatabaseOp db;
     
     public DatabaseOp(JFrame f)
     {
@@ -54,16 +55,23 @@ public class DatabaseOp implements Runnable  {
     this.exam_link="";
     this.exit_password="";
     this.f=f;
-    new Thread(this).start();
+    }
+    
+    public void thread_start(DatabaseOp db)
+    {
+     this.db = db;
+     new Thread(this).start();
     }
     
       @Override
     public void run() {
         try {
             
-        SplashScreen s=new SplashScreen();
-        s.setVisible(true);
+        SplashScreen s = new SplashScreen();
+        s.setVisible(true);  
         Thread t=Thread.currentThread();
+        db.initfirebase();
+        db.getData();
         try {
             t.sleep(10000L);
         } catch (InterruptedException ex) {
@@ -73,8 +81,19 @@ public class DatabaseOp implements Runnable  {
         SwingUtilities.invokeLater(new Runnable(){
             public void run()
             {
-                //opening the main application
-                 f.setVisible(true);
+              //opening the main application
+              if(db.getAppState() == 0)
+              {
+              JOptionPane.showMessageDialog(f, "There is no active examination");
+                  try {
+                      Runtime.getRuntime().exec("explorer.exe");
+                  } catch (IOException ex) {
+                      Logger.getLogger(DatabaseOp.class.getName()).log(Level.SEVERE, null, ex);
+                  }
+              System.exit(0);
+              
+              } 
+              f.setVisible(true);
             }
         });
       
@@ -116,8 +135,23 @@ public class DatabaseOp implements Runnable  {
             System.out.println("Error");// ...
         }    
     });
-    
-     
+    }
+
+    public void getPass()
+    {
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference basic_ref = database.getReference("main");
+    basic_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            app_state = Integer.parseInt((String) dataSnapshot.child("app_state").getValue());   
+        }
+        
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            System.out.println("Error");// ...
+        }    
+    });
     }
     
     int getAppState()

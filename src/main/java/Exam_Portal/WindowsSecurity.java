@@ -17,7 +17,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -38,30 +41,33 @@ public class WindowsSecurity implements Runnable
     this.db = db;
     new Thread(this).start();
   }
-  
+                            
      @Override
     public void run() {
         try {
      
-      //this.terminal.getParentFrame().setDefaultCloseOperation(0);
       kill("explorer.exe"); // Kill explorer
       Robot robot = new Robot();
       while (running) {
-          
-       db.getData();
-       
+       db.getPass();
        if(db.getAppState() == 0)
        {
          ActionListener taskPerformer = new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent ae) {
              JOptionPane.showMessageDialog(b_frame, "There is no active examination");
+                
+             try {
+                     Runtime.getRuntime().exec("explorer.exe");
+                 } catch (IOException ex) {
+                     Logger.getLogger(WindowsSecurity.class.getName()).log(Level.SEVERE, null, ex);
+                 }
              }
         };
+         
         Timer timer = new Timer(100 ,taskPerformer);
         timer.setRepeats(false);
         timer.start();
-
         Thread.sleep(5000L);
         Runtime.getRuntime().exec("explorer.exe");
         System.exit(0);
