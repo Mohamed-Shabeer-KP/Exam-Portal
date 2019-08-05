@@ -49,7 +49,7 @@ public class WindowsSecurity implements Runnable
       kill("explorer.exe"); // Kill explorer
       Robot robot = new Robot();
       while (running) {
-       db.getPass();
+       db.getData();
        if(db.getAppState() == 0)
        {
          ActionListener taskPerformer = new ActionListener() {
@@ -63,7 +63,7 @@ public class WindowsSecurity implements Runnable
                      Logger.getLogger(WindowsSecurity.class.getName()).log(Level.SEVERE, null, ex);
                  }
              }
-        };
+        };        
          
         Timer timer = new Timer(100 ,taskPerformer);
         timer.setRepeats(false);

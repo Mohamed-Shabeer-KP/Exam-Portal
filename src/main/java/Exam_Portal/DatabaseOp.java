@@ -144,7 +144,8 @@ public class DatabaseOp implements Runnable  {
     basic_ref.addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            app_state = Integer.parseInt((String) dataSnapshot.child("app_state").getValue());   
+            app_state = Integer.parseInt((String) dataSnapshot.child("app_state").getValue());  
+            
         }
         
         @Override
