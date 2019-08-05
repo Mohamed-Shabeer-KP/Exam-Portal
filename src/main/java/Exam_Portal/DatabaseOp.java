@@ -5,38 +5,24 @@ package Exam_Portal;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.Firestore;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.cloud.FirestoreClient;
-import java.awt.Robot;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 /**
  *
  * @author MOHAMED SHABEER KP
@@ -48,13 +34,15 @@ public class DatabaseOp implements Runnable  {
     private String exam_link;
     private JFrame f;
     private DatabaseOp db;
+    private JButton exam_button;
     
-    public DatabaseOp(JFrame f)
+    public DatabaseOp(JFrame f,JButton exam_button)
     {
     this.app_state=0;
     this.exam_link="";
     this.exit_password="";
     this.f=f;
+    this.exam_button=exam_button;
     }
     
     public void thread_start(DatabaseOp db)
@@ -84,19 +72,27 @@ public class DatabaseOp implements Runnable  {
               //opening the main application
               if(db.getAppState() == 0)
               {
-              JOptionPane.showMessageDialog(f, "There is no active examination");
+              JOptionPane.showMessageDialog(f, "There is no active examination","Examination Inactive",JOptionPane.INFORMATION_MESSAGE);
                   try {
                       Runtime.getRuntime().exec("explorer.exe");
                   } catch (IOException ex) {
                       Logger.getLogger(DatabaseOp.class.getName()).log(Level.SEVERE, null, ex);
                   }
-              System.exit(0);
-              
-              } 
+              System.exit(0);             
+              }
+              else if(db.getAppState() == 1)
+              {
               f.setVisible(true);
-            }
+              new WindowsSecurity(f,db); 
+              }
+              }
         });
-      
+                      try {
+                    t.sleep(3000L);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(DatabaseOp.class.getName()).log(Level.SEVERE, null, ex);
+                }
+              exam_button.setVisible(true);
     } catch (Exception e) {
     System.out.println(e);
     }

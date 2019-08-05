@@ -49,19 +49,13 @@ public class WindowsSecurity implements Runnable
       kill("explorer.exe"); // Kill explorer
       Robot robot = new Robot();
       while (running) {
-       db.getData();
+       db.getData();   
        if(db.getAppState() == 0)
        {
          ActionListener taskPerformer = new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent ae) {
-             JOptionPane.showMessageDialog(b_frame, "There is no active examination");
-                
-             try {
-                     Runtime.getRuntime().exec("explorer.exe");
-                 } catch (IOException ex) {
-                     Logger.getLogger(WindowsSecurity.class.getName()).log(Level.SEVERE, null, ex);
-                 }
+             JOptionPane.showMessageDialog(b_frame, "There is no active examination","Examination Inactive",JOptionPane.INFORMATION_MESSAGE);
              }
         };        
          
