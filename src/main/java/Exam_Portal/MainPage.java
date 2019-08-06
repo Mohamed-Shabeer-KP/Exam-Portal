@@ -30,9 +30,6 @@ import java.util.logging.Logger;
 public class MainPage extends javax.swing.JFrame {
 
     private JFrame browser_frame;
-    private JPanel browser_panel;
-    private JPasswordField pass;
-    private JButton exitpassfieldinit;
     private int wrong_count;
     private int exit_btn_click_count;
     private DatabaseOp db;
@@ -43,10 +40,10 @@ public class MainPage extends javax.swing.JFrame {
      */
     public MainPage() {
         initComponents();
-        db = new DatabaseOp(this,btn_browser);
+        db = new DatabaseOp(this,btn_exam);
         db.thread_start(db);
         this.addWindowListener(getWindowAdapter());
-        
+        browser_frame = this;
         wrong_count=0;
         exit_btn_click_count = 3;
     }
@@ -63,9 +60,9 @@ public class MainPage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        b_exitpassfieldinit = new javax.swing.JButton();
+        btn_exitpass = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        btn_browser = new javax.swing.JButton();
+        btn_exam = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -146,13 +143,13 @@ public class MainPage extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(51, 102, 255), new java.awt.Color(0, 51, 51)));
         jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        b_exitpassfieldinit.setBackground(new java.awt.Color(173, 234, 255));
-        b_exitpassfieldinit.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
-        b_exitpassfieldinit.setText("Enter Password to Exit");
-        b_exitpassfieldinit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        b_exitpassfieldinit.addActionListener(new java.awt.event.ActionListener() {
+        btn_exitpass.setBackground(new java.awt.Color(173, 234, 255));
+        btn_exitpass.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
+        btn_exitpass.setText("Enter Password to Exit");
+        btn_exitpass.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_exitpass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_exitpassfieldinitActionPerformed(evt);
+                btn_exitpassActionPerformed(evt);
             }
         });
 
@@ -165,16 +162,16 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
-        btn_browser.setBackground(new java.awt.Color(153, 255, 153));
-        btn_browser.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
-        btn_browser.setText("EXAM");
-        btn_browser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_browser.addActionListener(new java.awt.event.ActionListener() {
+        btn_exam.setBackground(new java.awt.Color(153, 255, 153));
+        btn_exam.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
+        btn_exam.setText("EXAM");
+        btn_exam.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_exam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_browserActionPerformed(evt);
+                btn_examActionPerformed(evt);
             }
         });
-        btn_browser.setVisible(false);
+        btn_exam.setVisible(false);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(71, 108, 255)));
@@ -244,9 +241,9 @@ public class MainPage extends javax.swing.JFrame {
                 .addGap(11, 11, 11)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(b_exitpassfieldinit, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_exitpass, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_browser, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_exam, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -261,8 +258,8 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(btn_browser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(b_exitpassfieldinit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btn_exam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_exitpass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -320,15 +317,15 @@ public class MainPage extends javax.swing.JFrame {
       makeFrameFullSize(this);
     }//GEN-LAST:event_formWindowOpened
 
-    private void btn_browserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browserActionPerformed
+    private void btn_examActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_examActionPerformed
       createBrowser(db.getExamLink());
-    }//GEN-LAST:event_btn_browserActionPerformed
+    }//GEN-LAST:event_btn_examActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void b_exitpassfieldinitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_exitpassfieldinitActionPerformed
+    private void btn_exitpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exitpassActionPerformed
 
         if(exit_btn_click_count <= 0)
         {
@@ -362,7 +359,17 @@ public class MainPage extends javax.swing.JFrame {
                 this.l_warning.setVisible(true);
                 this.l_attempt_count.setText(String.valueOf(wrong_count));
                 this.l_attempt_count.setVisible(true);
-                this.l_attempt_info.setVisible(true);           
+                this.l_attempt_info.setVisible(true); 
+
+                for(int i=0;i<10;i++)
+                {
+                Toolkit.getDefaultToolkit().beep();             
+                    try {
+                        Thread.sleep(1000L);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
         }
         }
         else
@@ -373,7 +380,7 @@ public class MainPage extends javax.swing.JFrame {
             else 
             JOptionPane.showMessageDialog(this, "FOR EXAMINER ONLY","Exit",JOptionPane.WARNING_MESSAGE);    
         }
-    }//GEN-LAST:event_b_exitpassfieldinitActionPerformed
+    }//GEN-LAST:event_btn_exitpassActionPerformed
 
     /**
      * @param args the command line arguments
@@ -403,8 +410,7 @@ public class MainPage extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MainPage f=new MainPage();               
-
+                MainPage f=new MainPage();              
             }
         });
    
@@ -423,8 +429,8 @@ public class MainPage extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton b_exitpassfieldinit;
-    private javax.swing.JButton btn_browser;
+    private javax.swing.JButton btn_exam;
+    private javax.swing.JButton btn_exitpass;
     private javax.swing.JDesktopPane dskp_browser;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

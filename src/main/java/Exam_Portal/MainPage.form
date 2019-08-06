@@ -210,9 +210,9 @@
                       <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                       <Component id="jButton2" min="-2" pref="41" max="-2" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="b_exitpassfieldinit" min="-2" pref="171" max="-2" attributes="0"/>
+                      <Component id="btn_exitpass" min="-2" pref="171" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btn_browser" min="-2" pref="118" max="-2" attributes="0"/>
+                      <Component id="btn_exam" min="-2" pref="118" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel3" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -229,8 +229,8 @@
                           <Component id="jPanel3" max="32767" attributes="0"/>
                           <Component id="jButton2" alignment="0" pref="35" max="32767" attributes="0"/>
                           <Component id="jPanel4" alignment="0" pref="35" max="32767" attributes="0"/>
-                          <Component id="btn_browser" alignment="0" max="32767" attributes="0"/>
-                          <Component id="b_exitpassfieldinit" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btn_exam" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btn_exitpass" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -238,7 +238,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="b_exitpassfieldinit">
+            <Component class="javax.swing.JButton" name="btn_exitpass">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ea" red="ad" type="rgb"/>
@@ -252,7 +252,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_exitpassfieldinitActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_exitpassActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton2">
@@ -271,7 +271,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btn_browser">
+            <Component class="javax.swing.JButton" name="btn_exam">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="99" green="ff" red="99" type="rgb"/>
@@ -285,10 +285,10 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_browserActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_examActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="btn_browser.setVisible(false);"/>
+                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="btn_exam.setVisible(false);"/>
               </AuxValues>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel3">
