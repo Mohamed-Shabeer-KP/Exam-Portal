@@ -121,10 +121,10 @@ public class WindowsSecurity implements Runnable
   private void kill(String string) {
     try {
         if(!string.equals("Taskmgr.exe"))
-      Runtime.getRuntime().exec("taskkill /F /IM " + string).waitFor();
+        Runtime.getRuntime().exec("TASKKILL /F /IM " + string).waitFor();
      else
-        {   //  src//Elevate64.exe
-        Runtime.getRuntime().exec("/Elevate64 TASKKILL /F /IM Taskmgr.exe").waitFor(); 
+        {  
+        Runtime.getRuntime().exec("TASKKILL /F /IM Taskmgr.exe").waitFor(); 
         }
         } catch (Exception e) {
     }
