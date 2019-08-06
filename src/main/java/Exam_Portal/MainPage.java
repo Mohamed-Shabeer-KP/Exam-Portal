@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.util.logging.Level;
 import java.util.logging.Logger;
  
@@ -32,6 +33,7 @@ public class MainPage extends javax.swing.JFrame {
     private JFrame browser_frame;
     private int wrong_count;
     private int exit_btn_click_count;
+    private int exam_btn_count;
     private DatabaseOp db;
     private JourneyBrowserView browser;
     
@@ -40,12 +42,15 @@ public class MainPage extends javax.swing.JFrame {
      */
     public MainPage() {
         initComponents();
-        db = new DatabaseOp(this,btn_exam);
+        
+        db = new DatabaseOp(this,btn_exam,l_connection,btn_exam);
+        
         db.thread_start(db);
         this.addWindowListener(getWindowAdapter());
         browser_frame = this;
         wrong_count=0;
         exit_btn_click_count = 3;
+        exam_btn_count=0;
     }
 
 
@@ -59,6 +64,8 @@ public class MainPage extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        l_connection = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btn_exitpass = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -76,7 +83,6 @@ public class MainPage extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(2);
         setName("main_frame"); // NOI18N
-        setUndecorated(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -105,15 +111,16 @@ public class MainPage extends javax.swing.JFrame {
         );
         dskp_browserLayout.setVerticalGroup(
             dskp_browserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskp_browserLayout.createSequentialGroup()
+            .addGroup(dskp_browserLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(p_browser, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
+                .addComponent(p_browser, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 255), 1, true)));
         jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel1.setPreferredSize(new java.awt.Dimension(845, 65));
 
         jLabel1.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
         jLabel1.setText("© Boss Incorporated");
@@ -121,22 +128,44 @@ public class MainPage extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
         jLabel2.setText("Go-Green MCA 2016");
 
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+
+        l_connection.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        l_connection.setForeground(new java.awt.Color(255, 0, 0));
+        l_connection.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        l_connection.setText("!!! Internet Connection not available !!!");
+        l_connection.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        l_connection.setVisible(false);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(l_connection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(l_connection, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                .addComponent(jLabel2))
+            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -184,7 +213,7 @@ public class MainPage extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
+            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,7 +286,7 @@ public class MainPage extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(btn_exam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_exitpass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -267,12 +296,12 @@ public class MainPage extends javax.swing.JFrame {
         p_main.setLayout(p_mainLayout);
         p_mainLayout.setHorizontalGroup(
             p_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(p_mainLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p_mainLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(p_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dskp_browser))
+                .addGroup(p_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(dskp_browser)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 994, Short.MAX_VALUE))
                 .addContainerGap())
         );
         p_mainLayout.setVerticalGroup(
@@ -283,8 +312,8 @@ public class MainPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dskp_browser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -295,7 +324,7 @@ public class MainPage extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(p_main, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(p_main, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -318,7 +347,25 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btn_examActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_examActionPerformed
-      createBrowser(db.getExamLink());
+        
+        if(exam_btn_count == 0)
+            createBrowser(db.getExamLink());
+        else
+        {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Are you sure you want to reload the page ?  ");
+        panel.add(label);
+        String[] options = new String[]{"OK", "Cancel"};
+        int option = JOptionPane.showOptionDialog(this, panel, "Refresh",
+                         JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                         null, options, options[1]);
+        if(option == 0) // pressing OK button
+        {
+            createBrowser(db.getExamLink());
+        }
+        }
+        
+        exam_btn_count++;
     }//GEN-LAST:event_btn_examActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -361,15 +408,23 @@ public class MainPage extends javax.swing.JFrame {
                 this.l_attempt_count.setVisible(true);
                 this.l_attempt_info.setVisible(true); 
 
-                for(int i=0;i<10;i++)
-                {
-                Toolkit.getDefaultToolkit().beep();             
+                
+            Thread t = new Thread() {
+ 
+            public void run() {
+                int i = 0;
+                while (i <= 5) {
+                      Toolkit.getDefaultToolkit().beep(); 
                     try {
-                        Thread.sleep(1000L);
+                        sleep(1000L);
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(SplashScreen.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } 
+                    i++;
+                }
+            }
+        };
+        t.start();
         }
         }
         else
@@ -426,7 +481,10 @@ public class MainPage extends javax.swing.JFrame {
     };
   }
 
-
+public JLabel getConnectionLabel()
+{
+return l_connection;
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_exam;
@@ -440,8 +498,10 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel l_attempt_count;
     private javax.swing.JLabel l_attempt_info;
+    private javax.swing.JLabel l_connection;
     private javax.swing.JLabel l_warning;
     private javax.swing.JPanel p_browser;
     private javax.swing.JPanel p_main;

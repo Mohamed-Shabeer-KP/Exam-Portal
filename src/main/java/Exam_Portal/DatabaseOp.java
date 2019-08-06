@@ -17,10 +17,15 @@ import com.google.firebase.FirebaseOptions;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 /**
@@ -30,19 +35,25 @@ import javax.swing.SwingUtilities;
 public class DatabaseOp implements Runnable  {
     
     private int app_state;
+    private int internetcon_flag;
     private String exit_password;
     private String exam_link;
     private JFrame f;
     private DatabaseOp db;
     private JButton exam_button;
+    private JLabel con_label;
+    private JButton btn_exam;
     
-    public DatabaseOp(JFrame f,JButton exam_button)
+    public DatabaseOp(JFrame f,JButton exam_button,JLabel con_label,JButton btn_exam)
     {
-    this.app_state=0;
-    this.exam_link="";
-    this.exit_password="";
-    this.f=f;
+    app_state = 0;
+    internetcon_flag = 0;
+    exam_link = "";
+    exit_password = "";
+    this.f = f;
     this.exam_button=exam_button;
+    this.con_label = con_label;
+    this.btn_exam = btn_exam;
     }
     
     public void thread_start(DatabaseOp db)
@@ -56,8 +67,18 @@ public class DatabaseOp implements Runnable  {
         try {
             
         SplashScreen s = new SplashScreen();
-        s.setVisible(true);  
-        Thread t=Thread.currentThread();
+        
+        
+        if(!netIsAvailable())
+        {
+            internetcon_flag = 1;
+            JOptionPane.showMessageDialog(f, "There is no active Internet Connection","Internet connection status",JOptionPane.ERROR_MESSAGE);
+            System.exit(0); 
+        }
+        else
+            s.setVisible(true);  
+               
+        Thread t = Thread.currentThread();
         db.initfirebase();
         db.getData();
         try {
@@ -70,29 +91,25 @@ public class DatabaseOp implements Runnable  {
             public void run()
             {
               //opening the main application
-              if(db.getAppState() == 0)
+              if(db.getAppState() == 0 && internetcon_flag == 0 )
               {
-              JOptionPane.showMessageDialog(f, "There is no active examination","Examination Inactive",JOptionPane.INFORMATION_MESSAGE);
-                  try {
-                      Runtime.getRuntime().exec("explorer.exe");
-                  } catch (IOException ex) {
-                      Logger.getLogger(DatabaseOp.class.getName()).log(Level.SEVERE, null, ex);
-                  }
+              JOptionPane.showMessageDialog(f, "There is no active examination","Examination status",JOptionPane.INFORMATION_MESSAGE);
               System.exit(0);             
               }
               else if(db.getAppState() == 1)
               {
               f.setVisible(true);
-              new WindowsSecurity(f,db); 
+              new WindowsSecurity(f,db,con_label,btn_exam); 
+              
               }
               }
         });
-                      try {
-                    t.sleep(3000L);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(DatabaseOp.class.getName()).log(Level.SEVERE, null, ex);
-                }
-              exam_button.setVisible(true);
+                             try {
+                      t.sleep(7000L);
+                  } catch (InterruptedException ex) {
+                      Logger.getLogger(DatabaseOp.class.getName()).log(Level.SEVERE, null, ex);
+                  }                        
+            exam_button.setVisible(true);
     } catch (Exception e) {
     System.out.println(e);
     }
@@ -150,6 +167,20 @@ public class DatabaseOp implements Runnable  {
         }    
     });
     }
+    
+    private static boolean netIsAvailable() {
+    try {
+        final URL url = new URL("http://www.google.com");
+        final URLConnection conn = url.openConnection();
+        conn.connect();
+        conn.getInputStream().close();
+        return true;
+    } catch (MalformedURLException e) {
+        throw new RuntimeException(e);
+    } catch (IOException e) {
+        return false;
+    }
+}
     
     int getAppState()
     {

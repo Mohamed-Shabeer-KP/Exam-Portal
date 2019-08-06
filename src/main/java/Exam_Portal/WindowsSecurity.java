@@ -12,6 +12,7 @@ package Exam_Portal;
  * @author MOHAMED SHABEER KP
  */
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -19,9 +20,16 @@ import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import static java.lang.Thread.sleep;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -33,12 +41,18 @@ public class WindowsSecurity implements Runnable
   private boolean running;
   private JFrame b_frame;
   private DatabaseOp db;
+  private JLabel con_label;
+  private JButton exambutton;
+  private int internetcon_flag;
 
-  public WindowsSecurity(JFrame b_frame,DatabaseOp db)
+  public WindowsSecurity(JFrame b_frame,DatabaseOp db,JLabel con_label,JButton exambutton)
   {
     running=true;
+    internetcon_flag = 2;
     this.b_frame = b_frame;
     this.db = db;
+    this.con_label = con_label;
+    this.exambutton = exambutton;
     new Thread(this).start();
   }
                             
@@ -49,13 +63,46 @@ public class WindowsSecurity implements Runnable
       kill("explorer.exe"); // Kill explorer
       Robot robot = new Robot();
       while (running) {
+          
+      if(!netIsAvailable())
+       {    
+            exambutton.setVisible(false);
+            Thread t = new Thread() {
+            
+            public void run() {     
+                    if(internetcon_flag % 2 == 0)
+                        con_label.setVisible(true);
+                    else
+                        con_label.setVisible(false);
+                    try {
+                        sleep(2000L);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(SplashScreen.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    internetcon_flag++;
+                }
+            
+        };
+        t.start();             
+       }
+       else
+       {
+           if(internetcon_flag != 2)
+           {
+           exambutton.setVisible(true);
+           con_label.setVisible(false);
+           JOptionPane.showMessageDialog(b_frame, "Internet connection is active","Internet Connection status",JOptionPane.INFORMATION_MESSAGE);
+           internetcon_flag = 2;
+           }
+       }
+                   
        db.getData();   
        if(db.getAppState() == 0)
        {
          ActionListener taskPerformer = new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent ae) {
-             JOptionPane.showMessageDialog(b_frame, "There is no active examination","Examination Inactive",JOptionPane.INFORMATION_MESSAGE);
+             JOptionPane.showMessageDialog(b_frame, "There is no active examination","Examination status",JOptionPane.INFORMATION_MESSAGE);
              }
         };        
          
@@ -90,7 +137,8 @@ public class WindowsSecurity implements Runnable
        {
        kill("cmd.exe");
        }
-       releaseKeys(robot);         
+       releaseKeys(robot);   
+      
       }
     } catch (Exception e) {
     System.out.println(e);
@@ -129,5 +177,19 @@ public class WindowsSecurity implements Runnable
         } catch (Exception e) {
     }
   }
+  
+      private static boolean netIsAvailable() {
+    try {
+        final URL url = new URL("http://www.google.com");
+        final URLConnection conn = url.openConnection();
+        conn.connect();
+        conn.getInputStream().close();
+        return true;
+    } catch (MalformedURLException e) {
+        throw new RuntimeException(e);
+    } catch (IOException e) {
+        return false;
+    }
+}
 }
 
