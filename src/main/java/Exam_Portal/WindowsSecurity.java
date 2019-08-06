@@ -86,6 +86,10 @@ public class WindowsSecurity implements Runnable
        {
        kill("Taskmgr.exe");
        }
+       if(pidInfo.contains("cmd.exe"))
+       {
+       kill("cmd.exe");
+       }
        releaseKeys(robot);         
       }
     } catch (Exception e) {
@@ -120,7 +124,7 @@ public class WindowsSecurity implements Runnable
       Runtime.getRuntime().exec("taskkill /F /IM " + string).waitFor();
      else
         {   //  src//Elevate64.exe
-        Runtime.getRuntime().exec("TASKKILL /F /IM Taskmgr.exe").waitFor(); 
+        Runtime.getRuntime().exec("/Elevate64 TASKKILL /F /IM Taskmgr.exe").waitFor(); 
         }
         } catch (Exception e) {
     }
