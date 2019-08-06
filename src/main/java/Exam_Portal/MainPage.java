@@ -369,7 +369,7 @@ public class MainPage extends javax.swing.JFrame {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
+                } 
         }
         }
         else
