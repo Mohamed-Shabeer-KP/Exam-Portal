@@ -44,8 +44,11 @@ public class WindowsSecurity implements Runnable
   private JLabel con_label;
   private JButton exambutton;
   private int internetcon_flag;
+  private JLabel timer_label;
+  private int min,sec;
+          
 
-  public WindowsSecurity(JFrame b_frame,DatabaseOp db,JLabel con_label,JButton exambutton)
+  public WindowsSecurity(JFrame b_frame,DatabaseOp db,JLabel con_label,JButton exambutton,JLabel timer_label)
   {
     running=true;
     internetcon_flag = 2;
@@ -53,17 +56,17 @@ public class WindowsSecurity implements Runnable
     this.db = db;
     this.con_label = con_label;
     this.exambutton = exambutton;
+    this.timer_label =timer_label;
     new Thread(this).start();
   }
                             
      @Override
     public void run() {
-        try {
-     
+      try {                 
       kill("explorer.exe"); // Kill explorer
       Robot robot = new Robot();
+      timer();
       while (running) {
-          
       if(netIsAvailable() == 1)
        {    
             exambutton.setVisible(false);
@@ -138,7 +141,6 @@ public class WindowsSecurity implements Runnable
        kill("cmd.exe");
        }
        releaseKeys(robot);   
-      
       }
     } catch (Exception e) {
     System.out.println(e);
@@ -183,5 +185,21 @@ public class WindowsSecurity implements Runnable
         int returnVal = p1.waitFor();
         return returnVal;    
 }
+    private void timer()
+    {
+        
+        javax.swing.Timer t = new javax.swing.Timer(1000, new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+              sec++;
+                if(sec/60 == 1)
+                {
+                min++;
+                sec = 0;
+                }
+                timer_label.setText(min+" : "+sec);
+          }
+       });
+       t.start();
+    }
 }
 

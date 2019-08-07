@@ -26,11 +26,12 @@ public class SplashScreen extends JFrame {
  
     public SplashScreen() throws IOException {
         super("SplashScreen");
-         x=1000; y=450; z=30;
+        x=1000; y=450; z=30;
         setSize(x, y);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setUndecorated(true);
+        setAlwaysOnTop(true);
         Image i = ImageIO.read(getClass().getResource("/splash.png"));
         img = new ImageIcon(i);
         imglabel = new JLabel(img);
