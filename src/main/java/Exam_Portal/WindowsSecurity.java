@@ -64,7 +64,7 @@ public class WindowsSecurity implements Runnable
       Robot robot = new Robot();
       while (running) {
           
-      if(!netIsAvailable())
+      if(netIsAvailable() == 1)
        {    
             exambutton.setVisible(false);
             Thread t = new Thread() {
@@ -86,7 +86,7 @@ public class WindowsSecurity implements Runnable
         t.start();             
        }
        else
-       {
+       {    
            if(internetcon_flag != 2)
            {
            exambutton.setVisible(true);
@@ -178,18 +178,10 @@ public class WindowsSecurity implements Runnable
     }
   }
   
-      private static boolean netIsAvailable() {
-    try {
-        final URL url = new URL("http://www.google.com");
-        final URLConnection conn = url.openConnection();
-        conn.connect();
-        conn.getInputStream().close();
-        return true;
-    } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
-    } catch (IOException e) {
-        return false;
-    }
+    private static int netIsAvailable() throws InterruptedException, IOException {
+        Process p1 = java.lang.Runtime.getRuntime().exec("ping -n 1 www.google.com");
+        int returnVal = p1.waitFor();
+        return returnVal;    
 }
 }
 

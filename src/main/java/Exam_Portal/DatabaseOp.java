@@ -69,7 +69,7 @@ public class DatabaseOp implements Runnable  {
         SplashScreen s = new SplashScreen();
         
         
-        if(!netIsAvailable())
+        if(netIsAvailable() == 1)
         {
             internetcon_flag = 1;
             JOptionPane.showMessageDialog(f, "There is no active Internet Connection","Internet connection status",JOptionPane.ERROR_MESSAGE);
@@ -100,7 +100,6 @@ public class DatabaseOp implements Runnable  {
               {
               f.setVisible(true);
               new WindowsSecurity(f,db,con_label,btn_exam); 
-              
               }
               }
         });
@@ -168,18 +167,10 @@ public class DatabaseOp implements Runnable  {
     });
     }
     
-    private static boolean netIsAvailable() {
-    try {
-        final URL url = new URL("http://www.google.com");
-        final URLConnection conn = url.openConnection();
-        conn.connect();
-        conn.getInputStream().close();
-        return true;
-    } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
-    } catch (IOException e) {
-        return false;
-    }
+    private static int netIsAvailable() throws InterruptedException, IOException {
+        Process p1 = java.lang.Runtime.getRuntime().exec("ping -n 1 www.google.com");
+        int returnVal = p1.waitFor();
+        return returnVal;    
 }
     
     int getAppState()
