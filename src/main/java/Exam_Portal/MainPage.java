@@ -363,7 +363,10 @@ public class MainPage extends javax.swing.JFrame {
     private void btn_examActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_examActionPerformed
         
         if(exam_btn_count == 0)
-            createBrowser(db.getExamLink());
+        {
+            createBrowser(db.getExamLink());        
+            timer();           
+        }
         else
         {
         JPanel panel = new JPanel();
@@ -378,8 +381,7 @@ public class MainPage extends javax.swing.JFrame {
             createBrowser(db.getExamLink());
         }
         }
-        
-        timer();
+
         exam_btn_count++;
     }//GEN-LAST:event_btn_examActionPerformed
 
@@ -488,7 +490,7 @@ public class MainPage extends javax.swing.JFrame {
         private void timer()
     {
         
-        javax.swing.Timer t = new javax.swing.Timer(1000, new ActionListener() {
+        javax.swing.Timer t = new javax.swing.Timer(1000    , new ActionListener() {
           public void actionPerformed(ActionEvent e) {
               sec++;
                 if(sec/60 == 1)
