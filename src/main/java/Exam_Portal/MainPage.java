@@ -11,6 +11,8 @@ import com.codebrig.journey.JourneyBrowserView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -36,7 +38,7 @@ public class MainPage extends javax.swing.JFrame {
     private int exam_btn_count;
     private DatabaseOp db;
     private JourneyBrowserView browser;
-    
+    private int min,sec;
     /**
      * Creates new form NewJFrame
      */
@@ -377,6 +379,7 @@ public class MainPage extends javax.swing.JFrame {
         }
         }
         
+        timer();
         exam_btn_count++;
     }//GEN-LAST:event_btn_examActionPerformed
 
@@ -481,6 +484,22 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
    
+    }
+        private void timer()
+    {
+        
+        javax.swing.Timer t = new javax.swing.Timer(1000, new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+              sec++;
+                if(sec/60 == 1)
+                {
+                min++;
+                sec = 0;
+                }
+                l_timer.setText(min+" : "+sec);
+          }
+       });
+       t.start();
     }
     
    private WindowAdapter getWindowAdapter() {
