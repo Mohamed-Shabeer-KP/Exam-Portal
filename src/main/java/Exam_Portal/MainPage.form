@@ -10,7 +10,6 @@
     </Property>
     <Property name="extendedState" type="int" value="2"/>
     <Property name="name" type="java.lang.String" value="main_frame" noResource="true"/>
-    <Property name="undecorated" type="boolean" value="true"/>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
@@ -61,7 +60,7 @@
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="dskp_browser" max="32767" attributes="0"/>
                       <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jPanel1" alignment="0" pref="1127" max="32767" attributes="0"/>
+                      <Component id="jPanel1" alignment="0" pref="1138" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>

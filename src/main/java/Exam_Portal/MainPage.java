@@ -33,26 +33,29 @@ import java.util.logging.Logger;
 public class MainPage extends javax.swing.JFrame {
 
     private JFrame browser_frame;
-    private int wrong_count;
-    private int exit_btn_click_count;
-    private int exam_btn_count;
+    private int wrong_count,exam_count;
+    private ExamSubject[] subjects;
+    WindowsSecurity ws;
+    private int exit_btn_click_count,exam_btn_count;
     private DatabaseOp db;
     private JourneyBrowserView browser;
     private int min,sec;
+    public int sub_id;
     /**
      * Creates new form NewJFrame
      */
     public MainPage() {
         initComponents();
         
-        db = new DatabaseOp(this,btn_exam,l_connection,btn_exam,l_timer);
-        
-        db.thread_start(db);
-        this.addWindowListener(getWindowAdapter());
-        browser_frame = this;
+        sub_id = -1;
         wrong_count=0;
         exit_btn_click_count = 3;
-        exam_btn_count=0;
+        exam_btn_count = 0;
+        browser_frame = this;    
+        db = new DatabaseOp(this,btn_exam,l_connection,l_timer);
+        db.thread_start(db);
+        this.addWindowListener(getWindowAdapter());
+ 
     }
 
 
@@ -86,7 +89,6 @@ public class MainPage extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(2);
         setName("main_frame"); // NOI18N
-        setUndecorated(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -315,7 +317,7 @@ public class MainPage extends javax.swing.JFrame {
                 .addGroup(p_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(dskp_browser)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1127, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1138, Short.MAX_VALUE))
                 .addContainerGap())
         );
         p_mainLayout.setVerticalGroup(
@@ -349,8 +351,10 @@ public class MainPage extends javax.swing.JFrame {
     aFrame.setSize(screenSize.width, screenSize.height);
 }
 
- public  void createBrowser(String link) {   
+    public void createBrowser(String link) {   
       
+        p_browser.removeAll();
+        p_browser.updateUI();
         browser = new JourneyBrowserView(link);  
         p_browser.add(browser, BorderLayout.CENTER);
         p_browser.updateUI();
@@ -361,13 +365,53 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btn_examActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_examActionPerformed
-        
+                
         if(exam_btn_count == 0)
         {
-            createBrowser(db.getExamLink());        
-            timer();           
-        }
+        exam_count = db.getExamCount();
+         
+        Object[] exam_subs = new Object[exam_count];//{"option1", "option2", "option3"};
+            
+        subjects = db.getExamSubjects();
+        
+        for(int i=0;i<exam_count;i++)
+            exam_subs[i] = subjects[i].getSubName();
+
+        Object selectionObject = JOptionPane.showInputDialog(this, "Select Subject", "Examination", JOptionPane.QUESTION_MESSAGE, null, exam_subs, exam_subs[0]);
+        
+        if(selectionObject == null)
+            JOptionPane.showMessageDialog(this, "You should select a subject to continue","Select subject",JOptionPane.WARNING_MESSAGE);
+        else 
+        {
+        String selectionString = selectionObject.toString();
+        
+        for(int i = 0;i < exam_count;i++)
+            if(exam_subs[i].equals(selectionString))
+                sub_id = i;
+        
+        if(sub_id == -1)
+        JOptionPane.showMessageDialog(this, "Select a valid subject","Invalid subject",JOptionPane.WARNING_MESSAGE);
         else
+        {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Selected subject is - '" + exam_subs[sub_id] +"' .Click \"Yes\"to confirm.");
+        panel.add(label);
+        String[] options = new String[]{"Yes", "No"};
+        int option = JOptionPane.showOptionDialog(this, panel, "Confirmation",
+                         JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                         null, options, options[1]);
+        if(option == 0) // pressing OK button
+        {
+            subjects = db.getExamSubjects();
+            db.ws.sub_id = sub_id;
+            exam_btn_count++;
+            createBrowser(subjects[sub_id].getExamLink()); 
+            timer();    
+        }
+        }
+        }
+        }
+        else if(sub_id != -1)
         {
         JPanel panel = new JPanel();
         JLabel label = new JLabel("Are you sure you want to reload the page ?  ");
@@ -378,11 +422,12 @@ public class MainPage extends javax.swing.JFrame {
                          null, options, options[1]);
         if(option == 0) // pressing OK button
         {
-            createBrowser(db.getExamLink());
+            subjects = db.getExamSubjects();
+            db.ws.sub_id = sub_id;
+            createBrowser(subjects[sub_id].getExamLink());
         }
         }
-
-        exam_btn_count++;
+        
     }//GEN-LAST:event_btn_examActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -391,6 +436,16 @@ public class MainPage extends javax.swing.JFrame {
 
     private void btn_exitpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exitpassActionPerformed
 
+        if(sub_id == -1)
+        {
+            try {
+                Runtime.getRuntime().exec("explorer.exe");
+            } catch (IOException ex) {
+                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.exit(0);
+        }  
+               
         if(exit_btn_click_count <= 0)
         {
         JPanel panel = new JPanel();
@@ -408,14 +463,16 @@ public class MainPage extends javax.swing.JFrame {
             char[] password = pass.getPassword();
             inputpass = new String(password);
         }
-           
-        if(inputpass.equals(db.getExitPassword()) && option == 0)
-        {  try {
-            Runtime.getRuntime().exec("explorer.exe");
+        
+        subjects = db.getExamSubjects();
+        if(inputpass.equals(subjects[sub_id].getExitPassword()) && option == 0 )
+        {   
+            try {
+                Runtime.getRuntime().exec("explorer.exe");
+            } catch (IOException ex) {
+                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
             System.exit(0);
-        } catch (IOException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-        }
         }
         else if(option == 0)
         {           
@@ -424,8 +481,7 @@ public class MainPage extends javax.swing.JFrame {
                 this.l_attempt_count.setText(String.valueOf(wrong_count));
                 this.l_attempt_count.setVisible(true);
                 this.l_attempt_info.setVisible(true); 
-
-                
+  
             Thread t = new Thread() {
  
             public void run() {

@@ -34,27 +34,29 @@ import javax.swing.SwingUtilities;
  */
 public class DatabaseOp implements Runnable  {
     
-    private int app_state;
+    private int exam_count,appstate,sub_id;
+    private String sub_name,exam_link,exit_password;
     private int internetcon_flag;
-    private String exit_password;
-    private String exam_link;
+    private ExamSubject subjects[];
     private JFrame f;
     private DatabaseOp db;
     private JButton exam_button;
     private JLabel con_label;
-    private JButton btn_exam;
     private JLabel timer_label;
+    public WindowsSecurity ws;
     
-    public DatabaseOp(JFrame f,JButton exam_button,JLabel con_label,JButton btn_exam,JLabel timer_label)
+    public DatabaseOp(JFrame f,JButton exam_button,JLabel con_label,JLabel timer_label)
     {
-    app_state = 0;
-    internetcon_flag = 0;
+    exam_count = 0;
+    appstate = 0;
+    sub_name = "";
     exam_link = "";
     exit_password = "";
+    internetcon_flag = 0;
     this.f = f;
+    this.sub_id = sub_id;
     this.exam_button=exam_button;
     this.con_label = con_label;
-    this.btn_exam = btn_exam;
     this.timer_label = timer_label;
     }
     
@@ -70,7 +72,6 @@ public class DatabaseOp implements Runnable  {
             
         SplashScreen s = new SplashScreen();
         
-        
         if(netIsAvailable() == 1)
         {
             internetcon_flag = 1;
@@ -78,11 +79,13 @@ public class DatabaseOp implements Runnable  {
             System.exit(0); 
         }
         else
-            s.setVisible(true);  
+        s.setVisible(true);  
                
         Thread t = Thread.currentThread();
+        
         db.initfirebase();
         db.getData();
+        
         try {
             t.sleep(10000L);
         } catch (InterruptedException ex) {
@@ -93,15 +96,15 @@ public class DatabaseOp implements Runnable  {
             public void run()
             {
               //opening the main application
-              if(db.getAppState() == 0 && internetcon_flag == 0 )
+              if(db.getExamCount() == 0 && internetcon_flag == 0 )
               {
               JOptionPane.showMessageDialog(f, "There is no active examination","Examination status",JOptionPane.INFORMATION_MESSAGE);
               System.exit(0);             
               }
-              else if(db.getAppState() == 1)
+              else 
               {
               f.setVisible(true);
-              new WindowsSecurity(f,db,con_label,btn_exam,timer_label); 
+              ws = new WindowsSecurity(f,db,con_label,exam_button,timer_label); 
               }
               }
         });
@@ -134,14 +137,27 @@ public class DatabaseOp implements Runnable  {
       
     public void getData()
     {
-     final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference basic_ref = database.getReference("main");
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference basic_ref = database.getReference("");
     basic_ref.addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            app_state = Integer.parseInt((String) dataSnapshot.child("app_state").getValue());   
-            exam_link = (String) dataSnapshot.child("exam_link").getValue();   
-            exit_password =(String) dataSnapshot.child("exit_password").getValue();   
+            exam_count = Integer.parseInt((String) dataSnapshot.child("main").child("exam_count").getValue());   
+            
+            subjects = new ExamSubject[exam_count];
+            for(int i = 1; i <= exam_count;i++)
+            {
+                sub_name = String.valueOf(dataSnapshot.child(String.valueOf(i)).child("sub_name").getValue());
+                appstate = Integer.parseInt((String) dataSnapshot.child(String.valueOf(i)).child("app_state").getValue());
+                exam_link = (String) dataSnapshot.child(String.valueOf(i)).child("exam_link").getValue();
+                exit_password = (String) dataSnapshot.child(String.valueOf(i)).child("exit_password").getValue();
+               
+                subjects[i-1] = new ExamSubject();
+                subjects[i-1].setSubName(sub_name);
+                subjects[i-1].setAppState(appstate);
+                subjects[i-1].setExamLink(exam_link);
+                subjects[i-1].setExitPassword(exit_password);   
+            }   
         }
         
         @Override
@@ -151,43 +167,20 @@ public class DatabaseOp implements Runnable  {
     });
     }
 
-    public void getPass()
-    {
-    final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference basic_ref = database.getReference("main");
-    basic_ref.addListenerForSingleValueEvent(new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            app_state = Integer.parseInt((String) dataSnapshot.child("app_state").getValue());  
-            
-        }
-        
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            System.out.println("Error");// ...
-        }    
-    });
-    }
     
     private static int netIsAvailable() throws InterruptedException, IOException {
         Process p1 = java.lang.Runtime.getRuntime().exec("ping -n 1 www.google.com");
         int returnVal = p1.waitFor();
         return returnVal;    
 }
-    
-    int getAppState()
-    {
-        return app_state;
+
+    int getExamCount() {
+        return exam_count;
     }
     
-    String getExitPassword()
-    {
-        return exit_password;
-    }
-    
-    String getExamLink()
-    {  
-        return exam_link;
+    ExamSubject[] getExamSubjects()
+    {   
+        return subjects;
     }
 
 }

@@ -41,19 +41,22 @@ public class WindowsSecurity implements Runnable
   private boolean running;
   private JFrame b_frame;
   private DatabaseOp db;
+  private ExamSubject[] subjects;
   private JLabel con_label;
-  private JButton exambutton;
+  private JButton exam_button;
   private int internetcon_flag;
+  public int sub_id;
           
 
-  public WindowsSecurity(JFrame b_frame,DatabaseOp db,JLabel con_label,JButton exambutton,JLabel timer_label)
+  public WindowsSecurity(JFrame b_frame,DatabaseOp db,JLabel con_label,JButton exam_button,JLabel timer_label)
   {
     running=true;
     internetcon_flag = 2;
     this.b_frame = b_frame;
     this.db = db;
+    this.sub_id = -1;
     this.con_label = con_label;
-    this.exambutton = exambutton;
+    this.exam_button = exam_button;
     new Thread(this).start();
   }
                             
@@ -65,7 +68,7 @@ public class WindowsSecurity implements Runnable
       while (running) {
       if(netIsAvailable() == 1)
        {    
-            exambutton.setVisible(false);
+            exam_button.setVisible(false);
             Thread t = new Thread() {
             
             public void run() {     
@@ -88,15 +91,17 @@ public class WindowsSecurity implements Runnable
        {    
            if(internetcon_flag != 2)
            {
-           exambutton.setVisible(true);
+           exam_button.setVisible(true);
            con_label.setVisible(false);
            JOptionPane.showMessageDialog(b_frame, "Internet connection is active","Internet Connection status",JOptionPane.INFORMATION_MESSAGE);
            internetcon_flag = 2;
            }
        }
-                   
+       
        db.getData();   
-       if(db.getAppState() == 0)
+       subjects = db.getExamSubjects();
+       
+       if(db.getExamCount()== 0 || (sub_id != -1 && subjects[sub_id].getAppState() == 0) )
        {
          ActionListener taskPerformer = new ActionListener() {
              @Override
@@ -104,7 +109,7 @@ public class WindowsSecurity implements Runnable
              JOptionPane.showMessageDialog(b_frame, "Examination is over","Examination status",JOptionPane.INFORMATION_MESSAGE);
              }
         };        
-         
+   
         Timer timer = new Timer(100 ,taskPerformer);
         timer.setRepeats(false);
         timer.start();
@@ -112,7 +117,7 @@ public class WindowsSecurity implements Runnable
         Runtime.getRuntime().exec("explorer.exe");
         System.exit(0);
        }  
-       
+     
        sleep(30L);
        releaseKeys(robot);
        sleep(15L);
@@ -142,6 +147,11 @@ public class WindowsSecurity implements Runnable
     System.out.println(e);
     }
     }
+    
+  public void setSubId(int sub_id)
+  {
+  this.sub_id = sub_id;
+  }
   
   public void stop()
   {
