@@ -35,7 +35,7 @@ public class MainPage extends javax.swing.JFrame {
     private JFrame browser_frame;
     private int wrong_count,exit_flag,exam_count;
     private ExamSubject[] subjects;
-    WindowsSecurity ws;
+    private WindowsSecurity ws;
     private int exit_btn_click_count,exam_btn_count;
     private DatabaseOp db;
     private JourneyBrowserView browser;
@@ -53,7 +53,7 @@ public class MainPage extends javax.swing.JFrame {
         exit_btn_click_count = 3;
         exam_btn_count = 0;
         browser_frame = this;    
-        db = new DatabaseOp(this,btn_exam,l_connection,l_timer);
+        db = new DatabaseOp(this,this.btn_exam,this.l_connection,this.l_timer,this.l_date);
         db.thread_start(db);
         this.addWindowListener(getWindowAdapter());
  
@@ -68,7 +68,7 @@ public class MainPage extends javax.swing.JFrame {
         dskp_browser = new javax.swing.JDesktopPane();
         p_browser = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        l_date = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         l_connection = new javax.swing.JLabel();
@@ -89,7 +89,6 @@ public class MainPage extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(2);
         setName("main_frame"); // NOI18N
-        setUndecorated(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -129,8 +128,11 @@ public class MainPage extends javax.swing.JFrame {
         jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.setPreferredSize(new java.awt.Dimension(845, 65));
 
-        jLabel1.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
-        jLabel1.setText("© Boss Incorporated");
+        l_date.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
+        l_date.setText("[sys_date]");
+        l_date.setMaximumSize(new java.awt.Dimension(200, 17));
+        l_date.setMinimumSize(new java.awt.Dimension(200, 17));
+        l_date.setPreferredSize(new java.awt.Dimension(200, 17));
 
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
         jLabel2.setText("Go-Green MCA 2016");
@@ -161,7 +163,7 @@ public class MainPage extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(l_date, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -170,7 +172,7 @@ public class MainPage extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(l_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -608,7 +610,6 @@ return l_connection;
     private javax.swing.JButton btn_exam;
     private javax.swing.JDesktopPane dskp_browser;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
@@ -619,6 +620,7 @@ return l_connection;
     private javax.swing.JLabel l_attempt_count;
     private javax.swing.JLabel l_attempt_info;
     private javax.swing.JLabel l_connection;
+    private javax.swing.JLabel l_date;
     private javax.swing.JLabel l_timer;
     private javax.swing.JLabel l_warning;
     private javax.swing.JPanel p_browser;

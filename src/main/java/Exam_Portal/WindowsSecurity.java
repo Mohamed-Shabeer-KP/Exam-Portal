@@ -25,6 +25,8 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -42,13 +44,13 @@ public class WindowsSecurity implements Runnable
   private JFrame b_frame;
   private DatabaseOp db;
   private ExamSubject[] subjects;
-  private JLabel con_label;
+  private JLabel con_label,date_label;
   private JButton exam_button;
   private int internetcon_flag;
   public int sub_id;
           
 
-  public WindowsSecurity(JFrame b_frame,DatabaseOp db,JLabel con_label,JButton exam_button,JLabel timer_label)
+  public WindowsSecurity(JFrame b_frame,DatabaseOp db,JLabel con_label,JButton exam_button,JLabel timer_label,JLabel date_label)
   {
     running=true;
     internetcon_flag = 2;
@@ -56,6 +58,7 @@ public class WindowsSecurity implements Runnable
     this.db = db;
     this.sub_id = -1;
     this.con_label = con_label;
+    this.date_label = date_label;
     this.exam_button = exam_button;
     new Thread(this).start();
   }
@@ -66,6 +69,11 @@ public class WindowsSecurity implements Runnable
       kill("explorer.exe"); // Kill explorer
       Robot robot = new Robot();
       while (running) {
+      
+      Date date = java.util.Calendar.getInstance().getTime();
+      SimpleDateFormat formatter = new SimpleDateFormat("E, dd MMM yyyy, hh:mm a");
+      date_label.setText(formatter.format(date));
+      
       if(netIsAvailable() == 1)
        {    
             exam_button.setVisible(false);
@@ -142,6 +150,7 @@ public class WindowsSecurity implements Runnable
     } catch (Exception e) {
     System.out.println(e);
     }
+     
     }
     
   public void setSubId(int sub_id)

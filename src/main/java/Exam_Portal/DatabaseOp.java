@@ -41,11 +41,10 @@ public class DatabaseOp implements Runnable  {
     private JFrame f;
     private DatabaseOp db;
     private JButton exam_button;
-    private JLabel con_label;
-    private JLabel timer_label;
+    private JLabel con_label,timer_label,date_label;
     public WindowsSecurity ws;
     
-    public DatabaseOp(JFrame f,JButton exam_button,JLabel con_label,JLabel timer_label)
+    public DatabaseOp(JFrame f,JButton exam_button,JLabel con_label,JLabel timer_label,JLabel date_label)
     {
     exam_count = 0;
     exam_state = 0;
@@ -59,6 +58,7 @@ public class DatabaseOp implements Runnable  {
     this.exam_button=exam_button;
     this.con_label = con_label;
     this.timer_label = timer_label;
+    this.date_label = date_label;
     }
     
     public void thread_start(DatabaseOp db)
@@ -104,7 +104,7 @@ public class DatabaseOp implements Runnable  {
               else 
               {
               f.setVisible(true);
-              ws = new WindowsSecurity(f,db,con_label,exam_button,timer_label); 
+              ws = new WindowsSecurity(f,db,con_label,exam_button,timer_label,date_label); 
               }
               }
         });
