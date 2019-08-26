@@ -82,8 +82,7 @@ public class WindowsSecurity implements Runnable
                         Logger.getLogger(SplashScreen.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     internetcon_flag++;
-                }
-            
+                }      
         };
         t.start();             
        }
@@ -106,6 +105,7 @@ public class WindowsSecurity implements Runnable
          ActionListener taskPerformer = new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent ae) {
+             db.setStudCount(sub_id,0);
              JOptionPane.showMessageDialog(b_frame, "Examination is over","Examination status",JOptionPane.INFORMATION_MESSAGE);
              }
         };        

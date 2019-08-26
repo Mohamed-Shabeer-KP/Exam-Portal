@@ -34,8 +34,8 @@ import javax.swing.SwingUtilities;
  */
 public class DatabaseOp implements Runnable  {
     
-    private int exam_count,appstate,sub_id;
-    private String sub_name,exam_link,exit_password;
+    private int exam_count,app_mode,exam_state,sub_id,stud_count;
+    private String sub_name,exam_link,exit_password,login_password;
     private int internetcon_flag;
     private ExamSubject subjects[];
     private JFrame f;
@@ -48,7 +48,8 @@ public class DatabaseOp implements Runnable  {
     public DatabaseOp(JFrame f,JButton exam_button,JLabel con_label,JLabel timer_label)
     {
     exam_count = 0;
-    appstate = 0;
+    exam_state = 0;
+    app_mode = 0;
     sub_name = "";
     exam_link = "";
     exit_password = "";
@@ -95,7 +96,6 @@ public class DatabaseOp implements Runnable  {
         SwingUtilities.invokeLater(new Runnable(){
             public void run()
             {
-              //opening the main application
               if(db.getExamCount() == 0 && internetcon_flag == 0 )
               {
               JOptionPane.showMessageDialog(f, "There is no active examination","Examination status",JOptionPane.INFORMATION_MESSAGE);
@@ -143,19 +143,23 @@ public class DatabaseOp implements Runnable  {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             exam_count = Integer.parseInt((String) dataSnapshot.child("main").child("exam_count").getValue());   
+            app_mode = Integer.parseInt((String) dataSnapshot.child("main").child("app_mode").getValue()); 
             
             subjects = new ExamSubject[exam_count];
             for(int i = 1; i <= exam_count;i++)
             {
                 sub_name = String.valueOf(dataSnapshot.child(String.valueOf(i)).child("sub_name").getValue());
-                appstate = Integer.parseInt((String) dataSnapshot.child(String.valueOf(i)).child("app_state").getValue());
+                exam_state = Integer.parseInt((String) dataSnapshot.child(String.valueOf(i)).child("app_state").getValue());
                 exam_link = (String) dataSnapshot.child(String.valueOf(i)).child("exam_link").getValue();
+                login_password = (String) dataSnapshot.child(String.valueOf(i)).child("login_password").getValue();
                 exit_password = (String) dataSnapshot.child(String.valueOf(i)).child("exit_password").getValue();
+                stud_count = Integer.parseInt((String) dataSnapshot.child(String.valueOf(i)).child("stud_count").getValue());
                
                 subjects[i-1] = new ExamSubject();
                 subjects[i-1].setSubName(sub_name);
-                subjects[i-1].setAppState(appstate);
+                subjects[i-1].setAppState(exam_state);
                 subjects[i-1].setExamLink(exam_link);
+                subjects[i-1].setLoginPassword(login_password);
                 subjects[i-1].setExitPassword(exit_password);   
             }   
         }
@@ -166,7 +170,21 @@ public class DatabaseOp implements Runnable  {
         }    
     });
     }
-
+    
+    public void setStudCount(int sub_id,int mode_flag)
+    {
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference basic_ref = database.getReference(String.valueOf(sub_id+1)).child("stud_count");
+    
+    if(mode_flag == 1)
+        basic_ref.setValueAsync(String.valueOf(stud_count+1));
+    else if (mode_flag == 2)
+        basic_ref.setValueAsync(String.valueOf(stud_count-1));
+    else
+        basic_ref.setValueAsync(String.valueOf(0));
+    }
+    
+    
     
     private static int netIsAvailable() throws InterruptedException, IOException {
         Process p1 = java.lang.Runtime.getRuntime().exec("ping -n 1 www.google.com");
@@ -174,8 +192,13 @@ public class DatabaseOp implements Runnable  {
         return returnVal;    
 }
 
-    int getExamCount() {
+    int getExamCount() 
+    {
         return exam_count;
+    }
+    int getAppMode()
+    {
+        return app_mode;
     }
     
     ExamSubject[] getExamSubjects()

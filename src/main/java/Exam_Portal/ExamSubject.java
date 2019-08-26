@@ -14,7 +14,8 @@ public class ExamSubject {
     String exam_link;
     String exit_password;
     String sub_name;
-    
+    int sub_count;
+    String login_password;
     
     public void setSubName(String sub_name)
     {
@@ -54,6 +55,26 @@ public class ExamSubject {
     public String getExitPassword()
     {
         return exit_password;
+    }
+    
+    public void setLoginPassword(String login_password)
+    {
+        this.login_password = login_password;
+    }
+    
+    public String getLoginPassword()
+    {
+        return login_password;
+    }
+    
+    public void setSubCount(int sub_count)
+    {
+        this.sub_count = sub_count;
+    }
+    
+    public int getSubCount()
+    {
+        return sub_count;
     }
 
 }

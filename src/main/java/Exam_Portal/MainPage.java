@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 public class MainPage extends javax.swing.JFrame {
 
     private JFrame browser_frame;
-    private int wrong_count,exam_count;
+    private int wrong_count,exit_flag,exam_count;
     private ExamSubject[] subjects;
     WindowsSecurity ws;
     private int exit_btn_click_count,exam_btn_count;
@@ -48,7 +48,8 @@ public class MainPage extends javax.swing.JFrame {
         initComponents();
         
         sub_id = -1;
-        wrong_count=0;
+        wrong_count = 0;
+        exit_flag = 0;
         exit_btn_click_count = 3;
         exam_btn_count = 0;
         browser_frame = this;    
@@ -355,70 +356,117 @@ public class MainPage extends javax.swing.JFrame {
                 
         if(exam_btn_count == 0)
         {
-        exam_count = db.getExamCount();
-         
-        Object[] exam_subs = new Object[exam_count];//{"option1", "option2", "option3"};
-            
-        subjects = db.getExamSubjects();
-        
-        for(int i=0;i<exam_count;i++)
-            exam_subs[i] = subjects[i].getSubName();
-
-        Object selectionObject = JOptionPane.showInputDialog(this, "Select Subject", "Examination", JOptionPane.QUESTION_MESSAGE, null, exam_subs, exam_subs[0]);
-        
-        if(selectionObject == null)
-            JOptionPane.showMessageDialog(this, "You should select a subject to continue","Select subject",JOptionPane.WARNING_MESSAGE);
-        else 
-        {
-        String selectionString = selectionObject.toString();
-        
-        for(int i = 0;i < exam_count;i++)
-            if(exam_subs[i].equals(selectionString))
-                sub_id = i;
-        
-        if(sub_id == -1)
-        JOptionPane.showMessageDialog(this, "Select a valid subject","Invalid subject",JOptionPane.WARNING_MESSAGE);
-        else
-        {
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel("Selected subject is - '" + exam_subs[sub_id] +"' .Click \"Yes\"to confirm.");
-        panel.add(label);
-        String[] options = new String[]{"Yes", "No"};
-        int option = JOptionPane.showOptionDialog(this, panel, "Confirmation",
-                         JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
-                         null, options, options[1]);
-        if(option == 0) // pressing OK button
-        {
+            exam_count = db.getExamCount();
+            Object[] exam_subs = new Object[exam_count];//{"option1", "option2", "option3"};
             subjects = db.getExamSubjects();
-            db.ws.sub_id = sub_id;
-            exam_btn_count++;
-            createBrowser(subjects[sub_id].getExamLink()); 
-            timer();    
-        }
-        }
-        }
+            for(int i=0;i<exam_count;i++)
+                exam_subs[i] = subjects[i].getSubName();
+            if(db.getAppMode() == 1)    //Multiple Mode
+            {
+            Object selectionObject = JOptionPane.showInputDialog(this, "Select Subject", "Examination", JOptionPane.QUESTION_MESSAGE, null, exam_subs, exam_subs[0]);
+        
+            if(selectionObject == null)
+                JOptionPane.showMessageDialog(this, "You should select a subject to continue.","Subject not selected",JOptionPane.WARNING_MESSAGE);
+            else 
+            {
+            String selectionString = selectionObject.toString();
+        
+            for(int i = 0;i < exam_count;i++)
+                if(exam_subs[i].equals(selectionString))
+                    sub_id = i;
+        
+            db.setStudCount(sub_id,1);
+        
+            if(sub_id == -1)
+                JOptionPane.showMessageDialog(this, "Select a valid subject","Invalid subject",JOptionPane.WARNING_MESSAGE);
+            else
+            {
+            JPanel panel = new JPanel();
+            String title = new String("Login - "+exam_subs[sub_id]+" Examination"); 
+            JLabel label = new JLabel("Enter login password : ");
+            JTextField pass = new JTextField(20);
+            String login_pass = "";
+            panel.add(label);
+            panel.add(pass);
+            String[] options2 = new String[]{"OK", "Cancel"};
+            int option2 = JOptionPane.showOptionDialog(this, panel, title,
+                         JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                         null, options2, options2[1]);
+            if(option2 == 0) // pressing OK button
+            {
+                login_pass = pass.getText();
+            }
+        
+            if(login_pass.equals(subjects[sub_id].getLoginPassword()))
+            {
+                subjects = db.getExamSubjects();
+                db.ws.sub_id = sub_id;
+                exam_btn_count++;
+                exit_flag = 1;
+                createBrowser(subjects[sub_id].getExamLink()); 
+                timer();    
+            }
+            else if(option2 == 0)
+            {
+                JOptionPane.showMessageDialog(this, "Wrong Password","Invalid Password",JOptionPane.WARNING_MESSAGE);   
+            }
+            }
+            }
+            }
+            else  //Indivitual Mode
+            {
+                sub_id = 0;
+                JPanel panel = new JPanel();
+                JLabel label = new JLabel("Enter login password :");
+                String title = new String("Login - "+exam_subs[sub_id]+" Examination"); 
+                JTextField pass = new JTextField(20);
+                String login_pass = "";
+                panel.add(label);
+                panel.add(pass);
+                String[] options2 = new String[]{"OK", "Cancel"};
+                int option2 = JOptionPane.showOptionDialog(this, panel,title,
+                         JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                         null, options2, options2[1]);
+                if(option2 == 0) // pressing OK butto
+                {
+                    login_pass = pass.getText();
+                }
+
+                if(login_pass.equals(subjects[sub_id].getLoginPassword()))
+                {
+                    subjects = db.getExamSubjects();
+                    db.ws.sub_id = sub_id;
+                    exam_btn_count++;
+                    exit_flag = 1;
+                    db.setStudCount(sub_id,1);
+                    createBrowser(subjects[sub_id].getExamLink()); 
+                    timer();    
+                }
+                else if(option2 == 0)
+                    JOptionPane.showMessageDialog(this, "Wrong Password","Invalid Password",JOptionPane.WARNING_MESSAGE); 
+            }
         }
         else if(sub_id != -1)
-        {
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel("Are you sure you want to reload the page ?  ");
-        panel.add(label);
-        String[] options = new String[]{"OK", "Cancel"};
-        int option = JOptionPane.showOptionDialog(this, panel, "Refresh",
+            {
+            JPanel panel = new JPanel();
+            JLabel label = new JLabel("Are you sure you want to reload the page ?  ");
+            panel.add(label);
+            String[] options = new String[]{"OK", "Cancel"};
+            int option = JOptionPane.showOptionDialog(this, panel, "Refresh",
                          JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
                          null, options, options[1]);
-        if(option == 0) // pressing OK button
-        {
-            subjects = db.getExamSubjects();
-            db.ws.sub_id = sub_id;
-            createBrowser(subjects[sub_id].getExamLink());
-        }
+            if(option == 0) // pressing OK button
+            {     
+                subjects = db.getExamSubjects();
+                db.ws.sub_id = sub_id;
+                createBrowser(subjects[sub_id].getExamLink());
+            }           
         }
         
     }//GEN-LAST:event_btn_examActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
- if(sub_id == -1)
+        if(sub_id == -1 || exit_flag == 0)
         {
             try {
                 Runtime.getRuntime().exec("explorer.exe");
@@ -426,9 +474,8 @@ public class MainPage extends javax.swing.JFrame {
                 Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
             }
             System.exit(0);
-        }  
-               
-        if(exit_btn_click_count <= 0)
+        }      
+        else if(exit_btn_click_count <= 0)
         {
         JPanel panel = new JPanel();
         JLabel label = new JLabel("Enter password : ");
@@ -449,6 +496,7 @@ public class MainPage extends javax.swing.JFrame {
         subjects = db.getExamSubjects();
         if(inputpass.equals(subjects[sub_id].getExitPassword()) && option == 0 )
         {   
+            db.setStudCount(sub_id,2);
             try {
                 Runtime.getRuntime().exec("explorer.exe");
             } catch (IOException ex) {
