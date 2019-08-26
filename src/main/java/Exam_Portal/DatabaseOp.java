@@ -159,8 +159,9 @@ public class DatabaseOp implements Runnable  {
                 subjects[i-1].setSubName(sub_name);
                 subjects[i-1].setAppState(exam_state);
                 subjects[i-1].setExamLink(exam_link);
-                subjects[i-1].setLoginPassword(login_password);
+                subjects[i-1].setLoginPassword(login_password);    
                 subjects[i-1].setExitPassword(exit_password);   
+                subjects[i-1].setStudCount(stud_count);
             }   
         }
         
@@ -177,9 +178,9 @@ public class DatabaseOp implements Runnable  {
     DatabaseReference basic_ref = database.getReference(String.valueOf(sub_id+1)).child("stud_count");
     
     if(mode_flag == 1)
-        basic_ref.setValueAsync(String.valueOf(stud_count+1));
+        basic_ref.setValueAsync(String.valueOf((subjects[sub_id].getStudCount())+1));
     else if (mode_flag == 2)
-        basic_ref.setValueAsync(String.valueOf(stud_count-1));
+        basic_ref.setValueAsync(String.valueOf((subjects[sub_id].getStudCount())-1));
     else
         basic_ref.setValueAsync(String.valueOf(0));
     }

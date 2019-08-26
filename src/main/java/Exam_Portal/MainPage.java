@@ -375,8 +375,6 @@ public class MainPage extends javax.swing.JFrame {
                 if(exam_subs[i].equals(selectionString))
                     sub_id = i;
         
-            db.setStudCount(sub_id,1);
-        
             if(sub_id == -1)
                 JOptionPane.showMessageDialog(this, "Select a valid subject","Invalid subject",JOptionPane.WARNING_MESSAGE);
             else
@@ -391,7 +389,7 @@ public class MainPage extends javax.swing.JFrame {
             String[] options2 = new String[]{"OK", "Cancel"};
             int option2 = JOptionPane.showOptionDialog(this, panel, title,
                          JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
-                         null, options2, options2[1]);
+                         null, options2, options2[0]);
             if(option2 == 0) // pressing OK button
             {
                 login_pass = pass.getText();
@@ -400,6 +398,7 @@ public class MainPage extends javax.swing.JFrame {
             if(login_pass.equals(subjects[sub_id].getLoginPassword()))
             {
                 subjects = db.getExamSubjects();
+                db.setStudCount(sub_id,1);
                 db.ws.sub_id = sub_id;
                 exam_btn_count++;
                 exit_flag = 1;
@@ -426,7 +425,7 @@ public class MainPage extends javax.swing.JFrame {
                 String[] options2 = new String[]{"OK", "Cancel"};
                 int option2 = JOptionPane.showOptionDialog(this, panel,title,
                          JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
-                         null, options2, options2[1]);
+                         null, options2, options2[0]);
                 if(option2 == 0) // pressing OK butto
                 {
                     login_pass = pass.getText();
@@ -454,7 +453,7 @@ public class MainPage extends javax.swing.JFrame {
             String[] options = new String[]{"OK", "Cancel"};
             int option = JOptionPane.showOptionDialog(this, panel, "Refresh",
                          JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
-                         null, options, options[1]);
+                         null, options, options[0]);
             if(option == 0) // pressing OK button
             {     
                 subjects = db.getExamSubjects();
@@ -486,7 +485,7 @@ public class MainPage extends javax.swing.JFrame {
         String[] options = new String[]{"OK", "Cancel"};
         int option = JOptionPane.showOptionDialog(this, panel, "Exit",
                          JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
-                         null, options, options[1]);
+                         null, options, options[0]);
         if(option == 0) // pressing OK button
         {
             char[] password = pass.getPassword();

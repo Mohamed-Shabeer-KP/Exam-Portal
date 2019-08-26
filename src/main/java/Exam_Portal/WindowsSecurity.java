@@ -76,11 +76,7 @@ public class WindowsSecurity implements Runnable
                         con_label.setVisible(true);
                     else
                         con_label.setVisible(false);
-                    try {
-                        sleep(2000L);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(SplashScreen.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+
                     internetcon_flag++;
                 }      
         };
@@ -162,7 +158,7 @@ public class WindowsSecurity implements Runnable
     robot.keyRelease(17);
     robot.keyRelease(18);
     robot.keyRelease(127);
-    robot.keyRelease(524);
+    robot.keyRelease(524);  
     robot.keyRelease(9);
   }
 
@@ -188,6 +184,7 @@ public class WindowsSecurity implements Runnable
   
     private static int netIsAvailable() throws InterruptedException, IOException {
         Process p1 = java.lang.Runtime.getRuntime().exec("ping -n 1 www.google.com");
+        Thread.sleep(2000L);
         int returnVal = p1.waitFor();
         return returnVal;    
 }
