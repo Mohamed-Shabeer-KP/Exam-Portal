@@ -192,7 +192,7 @@ public class MainPage extends javax.swing.JFrame {
         });
 
         btn_exam.setBackground(new java.awt.Color(153, 255, 153));
-        btn_exam.setFont(new java.awt.Font("Comic Sans MS", 0, 13)); // NOI18N
+        btn_exam.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         btn_exam.setText("EXAM");
         btn_exam.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_exam.addActionListener(new java.awt.event.ActionListener() {
@@ -213,7 +213,7 @@ public class MainPage extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
+            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -223,7 +223,7 @@ public class MainPage extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(71, 108, 255)));
 
-        l_warning.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        l_warning.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         l_warning.setForeground(new java.awt.Color(255, 51, 51));
         l_warning.setText("!!! Wrong Password !!!");
         l_warning.setVisible(false);
@@ -232,7 +232,7 @@ public class MainPage extends javax.swing.JFrame {
         l_attempt_count.setText("0");
         l_attempt_count.setVisible(false);
 
-        l_attempt_info.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        l_attempt_info.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         l_attempt_info.setText("time(s)");
         l_attempt_info.setVisible(false);
 
@@ -364,6 +364,7 @@ public class MainPage extends javax.swing.JFrame {
             subjects = db.getExamSubjects();
             for(int i=0;i<exam_count;i++)
                 exam_subs[i] = subjects[i].getSubName();
+            
             if(db.getAppMode() == 1)    //Multiple Mode
             {
             Object selectionObject = JOptionPane.showInputDialog(this, "Select Subject", "Examination", JOptionPane.QUESTION_MESSAGE, null, exam_subs, exam_subs[0]);

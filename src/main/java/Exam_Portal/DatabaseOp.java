@@ -149,7 +149,7 @@ public class DatabaseOp implements Runnable  {
             for(int i = 1; i <= exam_count;i++)
             {
                 sub_name = String.valueOf(dataSnapshot.child(String.valueOf(i)).child("sub_name").getValue());
-                exam_state = Integer.parseInt((String) dataSnapshot.child(String.valueOf(i)).child("app_state").getValue());
+                exam_state = Integer.parseInt((String) dataSnapshot.child(String.valueOf(i)).child("exam_state").getValue());
                 exam_link = (String) dataSnapshot.child(String.valueOf(i)).child("exam_link").getValue();
                 login_password = (String) dataSnapshot.child(String.valueOf(i)).child("login_password").getValue();
                 exit_password = (String) dataSnapshot.child(String.valueOf(i)).child("exit_password").getValue();
@@ -177,12 +177,17 @@ public class DatabaseOp implements Runnable  {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference basic_ref = database.getReference(String.valueOf(sub_id+1)).child("stud_count");
     
-    if(mode_flag == 1)
-        basic_ref.setValueAsync(String.valueOf((subjects[sub_id].getStudCount())+1));
-    else if (mode_flag == 2)
-        basic_ref.setValueAsync(String.valueOf((subjects[sub_id].getStudCount())-1));
-    else
-        basic_ref.setValueAsync(String.valueOf(0));
+        switch (mode_flag) {
+            case 1:
+                basic_ref.setValueAsync(String.valueOf((subjects[sub_id].getStudCount())+1));
+                break;
+            case 2:
+                basic_ref.setValueAsync(String.valueOf((subjects[sub_id].getStudCount())-1));
+                break;
+            default:
+                basic_ref.setValueAsync(String.valueOf(0));
+                break;
+        }
     }
     
     

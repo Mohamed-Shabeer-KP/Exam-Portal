@@ -10,7 +10,7 @@ package Exam_Portal;
  * @author MOHAMED SHABEER KP
  */
 public class ExamSubject {
-    int app_state;
+    int exam_state;
     String exam_link;
     String exit_password;
     String sub_name;
@@ -27,14 +27,14 @@ public class ExamSubject {
         return sub_name;
     }
     
-    public void setAppState(int app_state)
+    public void setAppState(int exam_state)
     {
-        this.app_state = app_state;
+        this.exam_state = exam_state;
     }
     
     public int getAppState()
     {
-        return app_state;
+        return exam_state;
     }
         
     public void setExamLink(String exam_link)
