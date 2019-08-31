@@ -78,7 +78,6 @@ public class WindowsSecurity implements Runnable
        {    
             exam_button.setVisible(false);
             Thread t = new Thread() {
-            
             public void run() {     
                     if(internetcon_flag % 2 == 0)
                         con_label.setVisible(true);
