@@ -419,7 +419,7 @@ public class MainPage extends javax.swing.JFrame {
                     sub_id = 0;
                     JPanel panel = new JPanel();
                     JLabel label = new JLabel("Enter login password :");
-                    String title = new String("Login - "+exam_subs[sub_id]+" Examination");
+                    String title = new String("Login - <>" + exam_subs[sub_id] + " Examination");
                     JTextField pass = new JTextField(20);
                     String login_pass = "";
                     panel.add(label);
