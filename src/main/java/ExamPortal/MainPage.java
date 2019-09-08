@@ -1,4 +1,4 @@
-package Exam_Portal;
+package ExamPortal;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -6,8 +6,7 @@ package Exam_Portal;
  * and open the template in the editor.
  */
 
-
-import com.codebrig.journey.JourneyBrowserView;
+import AES256.Decryption;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,12 +18,12 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.util.logging.Level;
 import java.util.logging.Logger;
  
+import com.codebrig.journey.JourneyBrowserView;
   
 /**
  *
@@ -35,10 +34,8 @@ public class MainPage extends javax.swing.JFrame {
     private JFrame browser_frame;
     private int wrong_count,exit_flag,exam_count;
     private ExamSubject[] subjects;
-    private WindowsSecurity ws;
     private int exit_btn_click_count,exam_btn_count;
     private DatabaseOp db;
-    private JourneyBrowserView browser;
     private int min,sec;
     public int sub_id;
     /**
@@ -52,7 +49,8 @@ public class MainPage extends javax.swing.JFrame {
         exit_flag = 0;
         exit_btn_click_count = 3;
         exam_btn_count = 0;
-        browser_frame = this;    
+        browser_frame = this;  
+        
         db = new DatabaseOp(this,this.btn_exam,this.l_connection,this.l_timer,this.l_date);
         db.thread_start(db);
         this.addWindowListener(getWindowAdapter());
@@ -292,8 +290,8 @@ public class MainPage extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(btn_exam, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -342,10 +340,9 @@ public class MainPage extends javax.swing.JFrame {
 }
 
     public void createBrowser(String link) {   
-      
         p_browser.removeAll();
         p_browser.updateUI();
-        browser = new JourneyBrowserView(link);  
+        JourneyBrowserView browser = new JourneyBrowserView(link);  
         p_browser.add(browser, BorderLayout.CENTER);
         p_browser.updateUI();
 }
@@ -355,7 +352,9 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btn_examActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_examActionPerformed
-                
+  
+
+        String plain_exam_link = null;
         if(exam_btn_count == 0)
         {
             exam_count = db.getExamCount();
@@ -395,17 +394,18 @@ public class MainPage extends javax.swing.JFrame {
                                     null, options2, options2[0]);
                             if(option2 == 0) // pressing OK button
                             {
-                                login_pass = pass.getText();
+                                login_pass = pass.getText();    
                             }
                             
-                            if(login_pass.equals(subjects[sub_id].getLoginPassword()))
+                            plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass ,subjects[sub_id].getExitPassword());// AES 256 DECIPHER -login_pass.equals(subjects[sub_id].getLoginPassword())
+                            if( plain_exam_link != null)  
                             {
                                 subjects = db.getExamSubjects();
                                 db.setStudCount(sub_id,1);
                                 db.ws.sub_id = sub_id;
                                 exam_btn_count++;
                                 exit_flag = 1;
-                                createBrowser(subjects[sub_id].getExamLink());
+                                createBrowser(plain_exam_link);
                                 timer();
                             }
                             else if(option2 == 0)
@@ -419,7 +419,7 @@ public class MainPage extends javax.swing.JFrame {
                     sub_id = 0;
                     JPanel panel = new JPanel();
                     JLabel label = new JLabel("Enter login password :");
-                    String title = new String("Login - <>" + exam_subs[sub_id] + " Examination");
+                    String title = new String("Login - " + exam_subs[sub_id] + " Examination");
                     JTextField pass = new JTextField(20);
                     String login_pass = "";
                     panel.add(label);
@@ -431,14 +431,17 @@ public class MainPage extends javax.swing.JFrame {
                     if(option2 == 0) // pressing OK butto
                     {
                         login_pass = pass.getText();
-                    }   if(login_pass.equals(subjects[sub_id].getLoginPassword()))
+                    }   
+                    
+                    plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass ,subjects[sub_id].getExitPassword()); // AES256 Decipher
+                    if(plain_exam_link != null)
                     {
                         subjects = db.getExamSubjects();
                         db.ws.sub_id = sub_id;
                         exam_btn_count++;
                         exit_flag = 1;
                         db.setStudCount(sub_id,1);
-                        createBrowser(subjects[sub_id].getExamLink());
+                        createBrowser(plain_exam_link);
                         timer();
                     }
                     else if(option2 == 0)
@@ -452,7 +455,7 @@ public class MainPage extends javax.swing.JFrame {
                     exam_btn_count++;
                     exit_flag = 0;
                     db.setStudCount(sub_id,1);
-                    createBrowser(subjects[sub_id].getExamLink());
+                    createBrowser(plain_exam_link);
                     timer();
                     break;    
             }
@@ -473,7 +476,6 @@ public class MainPage extends javax.swing.JFrame {
                 createBrowser(subjects[sub_id].getExamLink());
             }           
         }
-        
     }//GEN-LAST:event_btn_examActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -579,7 +581,7 @@ public class MainPage extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MainPage f=new MainPage();              
+                new MainPage();              
             }
         });
    
