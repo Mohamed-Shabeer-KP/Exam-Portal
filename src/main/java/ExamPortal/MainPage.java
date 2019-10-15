@@ -452,6 +452,7 @@ public class MainPage extends javax.swing.JFrame {
                 default:
                     sub_id = 0;
                     subjects = db.getExamSubjects();
+                    plain_exam_link = subjects[0].getExamLink();
                     db.ws.sub_id = sub_id;
                     exam_btn_count++;
                     exit_flag = 0;
