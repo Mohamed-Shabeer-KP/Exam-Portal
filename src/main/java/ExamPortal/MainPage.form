@@ -84,7 +84,7 @@
         <Container class="javax.swing.JDesktopPane" name="dskp_browser">
           <Properties>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Crosshair Cursor"/>
+              <Color id="Default Cursor"/>
             </Property>
           </Properties>
 
@@ -113,6 +113,9 @@
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="cb" type="rgb"/>
+                </Property>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Default Cursor"/>
                 </Property>
               </Properties>
 
@@ -318,6 +321,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_examActionPerformed"/>
               </Events>
               <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="//Loading cursor&#xa;Cursor cursor = new Cursor(Cursor.WAIT_CURSOR);&#xa;p_browser.setCursor(cursor);"/>
                 <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="btn_exam.setVisible(false);"/>
               </AuxValues>
             </Component>

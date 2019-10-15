@@ -52,7 +52,7 @@ public class MainPage extends javax.swing.JFrame {
         exam_btn_count = 0;
         browser_frame = this;  
         
-        db = new DatabaseOp(this,this.btn_exam,this.l_connection,this.l_timer,this.l_date);
+        db = new DatabaseOp(this,this.btn_exam,this.l_connection,this.l_timer,this.l_date,this.p_browser);
         db.thread_start(db);
         this.addWindowListener(getWindowAdapter());
  
@@ -98,9 +98,10 @@ public class MainPage extends javax.swing.JFrame {
         p_main.setBackground(new java.awt.Color(255, 255, 255));
         p_main.setName(""); // NOI18N
 
-        dskp_browser.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
+        dskp_browser.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         p_browser.setBackground(new java.awt.Color(203, 255, 255));
+        p_browser.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         p_browser.setLayout(new java.awt.BorderLayout());
 
         dskp_browser.setLayer(p_browser, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -292,10 +293,14 @@ public class MainPage extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(btn_exam, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        //Loading cursor
+        Cursor cursor = new Cursor(Cursor.WAIT_CURSOR);
+        p_browser.setCursor(cursor);
 
         javax.swing.GroupLayout p_mainLayout = new javax.swing.GroupLayout(p_main);
         p_main.setLayout(p_mainLayout);
@@ -353,11 +358,13 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btn_examActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_examActionPerformed
-  
-
+ 
         String plain_exam_link = null;
         if(exam_btn_count == 0)
         {
+            Cursor cursor = new Cursor(Cursor.WAIT_CURSOR);
+            p_browser.setCursor(cursor);    
+            
             exam_count = db.getExamCount();
             Object[] exam_subs = new Object[exam_count];
             subjects = db.getExamSubjects();
@@ -408,6 +415,10 @@ public class MainPage extends javax.swing.JFrame {
                                 exit_flag = 1;
                                 createBrowser(plain_exam_link);
                                 timer();
+                                                               
+                                cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                                p_browser.setCursor(cursor);  
+                                
                             }
                             else if(option2 == 0)
                             {
@@ -442,8 +453,11 @@ public class MainPage extends javax.swing.JFrame {
                         exam_btn_count++;
                         exit_flag = 1;
                         db.setStudCount(sub_id,1);
-                        createBrowser("www.google.com");
+                        createBrowser(plain_exam_link);
                         timer();
+                                            
+                        cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                        p_browser.setCursor(cursor); 
                     }
                     else if(option2 == 0)
                         JOptionPane.showMessageDialog(this, "Wrong Password","Invalid Password",JOptionPane.WARNING_MESSAGE);
@@ -459,6 +473,10 @@ public class MainPage extends javax.swing.JFrame {
                     db.setStudCount(sub_id,1);
                     createBrowser(plain_exam_link);
                     timer();
+                    
+                    cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                    p_browser.setCursor(cursor); 
+                    
                     break;    
             }
         }
@@ -588,7 +606,8 @@ public class MainPage extends javax.swing.JFrame {
         });
    
     }
-        private void timer()
+    
+    private void timer()
     {
         
         javax.swing.Timer t = new javax.swing.Timer(1000, new ActionListener() {
