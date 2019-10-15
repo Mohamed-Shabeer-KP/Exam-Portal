@@ -434,7 +434,7 @@ public class MainPage extends javax.swing.JFrame {
                         login_pass = pass.getText();
                     }   
                     
-                    plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass ,subjects[sub_id].getExitPassword()); // AES256 Decipher
+                    plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass ,subjects[sub_id].getExitPassword()); // AES256 Deciphe
                     if(plain_exam_link != null)
                     {
                         subjects = db.getExamSubjects();
@@ -442,7 +442,7 @@ public class MainPage extends javax.swing.JFrame {
                         exam_btn_count++;
                         exit_flag = 1;
                         db.setStudCount(sub_id,1);
-                        createBrowser(plain_exam_link);
+                        createBrowser("www.google.com");
                         timer();
                     }
                     else if(option2 == 0)
