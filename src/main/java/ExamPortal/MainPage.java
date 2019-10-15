@@ -42,6 +42,7 @@ public class MainPage extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     public MainPage() {
+        
         initComponents();
         
         sub_id = -1;
