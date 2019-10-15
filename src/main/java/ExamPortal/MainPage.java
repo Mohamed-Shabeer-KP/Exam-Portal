@@ -483,8 +483,8 @@ public class MainPage extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if(sub_id == -1 || exit_flag == 0)
         {
-            try {
-                Runtime.getRuntime().exec("explorer.exe");
+            try {                  
+            Runtime.getRuntime().exec("C:/Windows/explorer.exe");   
             } catch (IOException ex) {
                 Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -513,7 +513,7 @@ public class MainPage extends javax.swing.JFrame {
         {   
             db.setStudCount(sub_id,2);
             try {
-                Runtime.getRuntime().exec("explorer.exe");
+            Runtime.getRuntime().exec("C:/Windows/explorer.exe");  
             } catch (IOException ex) {
                 Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
             }
