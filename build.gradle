@@ -14,7 +14,7 @@ sourceCompatibility = '1.8'
 mainClassName = 'ExamPortal.MainPage'
 
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'Exam_Portal.MainPage'
+    ext.mainClass = 'ExamPortal.MainPage'
 }
 
             repositories {
