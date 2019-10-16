@@ -5,7 +5,6 @@ package ExamPortal;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import AES256.Decryption;
 
 import javax.swing.*;
@@ -22,9 +21,9 @@ import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.util.logging.Level;
 import java.util.logging.Logger;
- 
+
 import com.codebrig.journey.JourneyBrowserView;
-  
+
 /**
  *
  * @author MOHAMED SHABEER KP
@@ -32,32 +31,35 @@ import com.codebrig.journey.JourneyBrowserView;
 public class MainPage extends javax.swing.JFrame {
 
     private JFrame browser_frame;
-    private int wrong_count,exit_flag,exam_count;
+    private int wrong_count, exit_flag, exam_count;
     private ExamSubject[] subjects;
-    private int exit_btn_click_count,exam_btn_count;
+    private int exit_btn_click_count, exam_btn_count;
     private DatabaseOp db;
-    private int min,sec;
+    private int min, sec;
     public int sub_id;
+
+    String plain_exam_link;
+
     /**
      * Creates new form NewJFrame
      */
     public MainPage() {
-        
+
         initComponents();
-        
+
         sub_id = -1;
         wrong_count = 0;
         exit_flag = 0;
         exit_btn_click_count = 3;
         exam_btn_count = 0;
-        browser_frame = this;  
-        
-        db = new DatabaseOp(this,this.btn_exam,this.l_connection,this.l_timer,this.l_date,this.p_browser);
+        browser_frame = this;
+        plain_exam_link = null;
+
+        db = new DatabaseOp(this, this.btn_exam, this.l_connection, this.l_timer, this.l_date, this.p_browser);
         db.thread_start(db);
         this.addWindowListener(getWindowAdapter());
- 
-    }
 
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -341,56 +343,55 @@ public class MainPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void makeFrameFullSize(JFrame aFrame) {
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    aFrame.setSize(screenSize.width, screenSize.height);
-}
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        aFrame.setSize(screenSize.width, screenSize.height);
+    }
 
-    public void createBrowser(String link) {   
+    public void createBrowser(String link) {
         p_browser.removeAll();
         p_browser.updateUI();
-        JourneyBrowserView browser = new JourneyBrowserView(link);  
+        JourneyBrowserView browser = new JourneyBrowserView(link);
         p_browser.add(browser, BorderLayout.CENTER);
         p_browser.updateUI();
-}
+    }
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-      makeFrameFullSize(this);
+        makeFrameFullSize(this);
     }//GEN-LAST:event_formWindowOpened
 
     private void btn_examActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_examActionPerformed
- 
-        String plain_exam_link = null;
-        if(exam_btn_count == 0)
-        {
+
+        if (exam_btn_count == 0) {
             Cursor cursor = new Cursor(Cursor.WAIT_CURSOR);
-            p_browser.setCursor(cursor);    
-            
+            p_browser.setCursor(cursor);
+
             exam_count = db.getExamCount();
             Object[] exam_subs = new Object[exam_count];
             subjects = db.getExamSubjects();
-            for(int i=0;i<exam_count;i++)
+            for (int i = 0; i < exam_count; i++) {
                 exam_subs[i] = subjects[i].getSubName();
-            
+            }
+
             switch (db.getAppMode()) {
-            //Multiple Mode
+                //Multiple Mode
                 case 1:
                     Object selectionObject = JOptionPane.showInputDialog(this, "Select Subject", "Examination", JOptionPane.QUESTION_MESSAGE, null, exam_subs, exam_subs[0]);
-                    if(selectionObject == null)
-                        JOptionPane.showMessageDialog(this, "You should select a subject to continue.","Subject not selected",JOptionPane.WARNING_MESSAGE);
-                    else
-                    {
+                    if (selectionObject == null) {
+                        JOptionPane.showMessageDialog(this, "You should select a subject to continue.", "Subject not selected", JOptionPane.WARNING_MESSAGE);
+                    } else {
                         String selectionString = selectionObject.toString();
-                        
-                        for(int i = 0;i < exam_count;i++)
-                            if(exam_subs[i].equals(selectionString))
+
+                        for (int i = 0; i < exam_count; i++) {
+                            if (exam_subs[i].equals(selectionString)) {
                                 sub_id = i;
-                        
-                        if(sub_id == -1)
-                            JOptionPane.showMessageDialog(this, "Select a valid subject","Invalid subject",JOptionPane.WARNING_MESSAGE);
-                        else
-                        {
+                            }
+                        }
+
+                        if (sub_id == -1) {
+                            JOptionPane.showMessageDialog(this, "Select a valid subject", "Invalid subject", JOptionPane.WARNING_MESSAGE);
+                        } else {
                             JPanel panel = new JPanel();
-                            String title = new String("Login - "+exam_subs[sub_id]+" Examination");
+                            String title = new String("Login - " + exam_subs[sub_id] + " Examination");
                             JLabel label = new JLabel("Enter login password : ");
                             JTextField pass = new JTextField(20);
                             String login_pass = "";
@@ -400,33 +401,31 @@ public class MainPage extends javax.swing.JFrame {
                             int option2 = JOptionPane.showOptionDialog(this, panel, title,
                                     JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
                                     null, options2, options2[0]);
-                            if(option2 == 0) // pressing OK button
+                            if (option2 == 0) // pressing OK button
                             {
-                                login_pass = pass.getText();    
+                                login_pass = pass.getText();
                             }
-                            
-                            plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass ,subjects[sub_id].getExitPassword());// AES 256 DECIPHER -login_pass.equals(subjects[sub_id].getLoginPassword())
-                            if( plain_exam_link != null)  
-                            {
+
+                            plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass, subjects[sub_id].getExitPassword());// AES 256 DECIPHER -login_pass.equals(subjects[sub_id].getLoginPassword())
+                            if (plain_exam_link != null) {
                                 subjects = db.getExamSubjects();
-                                db.setStudCount(sub_id,1);
+                                db.setStudCount(sub_id, 1);
                                 db.ws.sub_id = sub_id;
                                 exam_btn_count++;
                                 exit_flag = 1;
                                 createBrowser(plain_exam_link);
                                 timer();
-                                                               
+
                                 cursor = new Cursor(Cursor.DEFAULT_CURSOR);
-                                p_browser.setCursor(cursor);  
-                                
-                            }
-                            else if(option2 == 0)
-                            {
-                                JOptionPane.showMessageDialog(this, "Wrong Password","Invalid Password",JOptionPane.WARNING_MESSAGE);
+                                p_browser.setCursor(cursor);
+
+                            } else if (option2 == 0) {
+                                JOptionPane.showMessageDialog(this, "Wrong Password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
                             }
                         }
-                    }       break;
-            //Indivitual Mode
+                    }
+                    break;
+                //Indivitual Mode
                 case 0:
                     sub_id = 0;
                     JPanel panel = new JPanel();
@@ -437,32 +436,32 @@ public class MainPage extends javax.swing.JFrame {
                     panel.add(label);
                     panel.add(pass);
                     String[] options2 = new String[]{"OK", "Cancel"};
-                    int option2 = JOptionPane.showOptionDialog(this, panel,title,
+                    int option2 = JOptionPane.showOptionDialog(this, panel, title,
                             JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
                             null, options2, options2[0]);
-                    if(option2 == 0) // pressing OK butto
+                    if (option2 == 0) // pressing OK butto
                     {
                         login_pass = pass.getText();
-                    }   
-                    
-                    plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass ,subjects[sub_id].getExitPassword()); // AES256 Deciphe
-                    if(plain_exam_link != null)
-                    {
+                    }
+
+                    plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass, subjects[sub_id].getExitPassword()); // AES256 Deciphe
+                    if (plain_exam_link != null) {
                         subjects = db.getExamSubjects();
                         db.ws.sub_id = sub_id;
                         exam_btn_count++;
                         exit_flag = 1;
-                        db.setStudCount(sub_id,1);
+                        db.setStudCount(sub_id, 1);
                         createBrowser(plain_exam_link);
                         timer();
-                                            
+
                         cursor = new Cursor(Cursor.DEFAULT_CURSOR);
-                        p_browser.setCursor(cursor); 
+                        p_browser.setCursor(cursor);
+
+                    } else if (option2 == 0) {
+                        JOptionPane.showMessageDialog(this, "Wrong Password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
                     }
-                    else if(option2 == 0)
-                        JOptionPane.showMessageDialog(this, "Wrong Password","Invalid Password",JOptionPane.WARNING_MESSAGE);
                     break;
-            // open mode
+                // open mode
                 default:
                     sub_id = 0;
                     subjects = db.getExamSubjects();
@@ -470,106 +469,97 @@ public class MainPage extends javax.swing.JFrame {
                     db.ws.sub_id = sub_id;
                     exam_btn_count++;
                     exit_flag = 0;
-                    db.setStudCount(sub_id,1);
+                    db.setStudCount(sub_id, 1);
                     createBrowser(plain_exam_link);
                     timer();
-                    
+
                     cursor = new Cursor(Cursor.DEFAULT_CURSOR);
-                    p_browser.setCursor(cursor); 
-                    
-                    break;    
+                    p_browser.setCursor(cursor);
+
+                    break;
             }
-        }
-        else if(sub_id != -1)
-            {
+        } else if (sub_id != -1) {
             JPanel panel = new JPanel();
             JLabel label = new JLabel("Are you sure you want to reload the page ?  ");
             panel.add(label);
             String[] options = new String[]{"OK", "Cancel"};
             int option = JOptionPane.showOptionDialog(this, panel, "Refresh",
-                         JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
-                         null, options, options[0]);
-            if(option == 0) // pressing OK button
-            {     
+                    JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                    null, options, options[0]);
+            if (option == 0) // pressing OK button
+            {
                 subjects = db.getExamSubjects();
                 db.ws.sub_id = sub_id;
-                createBrowser(subjects[sub_id].getExamLink());
-            }           
+                createBrowser(plain_exam_link);
+            }
         }
     }//GEN-LAST:event_btn_examActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(sub_id == -1 || exit_flag == 0)
-        {
-            try {                  
-            Runtime.getRuntime().exec("C:/Windows/explorer.exe");   
-            } catch (IOException ex) {
-                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            System.exit(0);
-        }      
-        else if(exit_btn_click_count <= 0)
-        {
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel("Enter password : ");
-        JPasswordField pass = new JPasswordField(10);
-        String inputpass = "";
-        panel.add(label);
-        panel.add(pass);
-        String[] options = new String[]{"OK", "Cancel"};
-        int option = JOptionPane.showOptionDialog(this, panel, "Exit",
-                         JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
-                         null, options, options[0]);
-        if(option == 0) // pressing OK button
-        {
-            char[] password = pass.getPassword();
-            inputpass = new String(password);
-        }
-        
-        subjects = db.getExamSubjects();
-        if(inputpass.equals(subjects[sub_id].getExitPassword()) && option == 0 )
-        {   
-            db.setStudCount(sub_id,2);
+        if (sub_id == -1 || exit_flag == 0) {
             try {
-            Runtime.getRuntime().exec("C:/Windows/explorer.exe");  
+                Runtime.getRuntime().exec("C:/Windows/explorer.exe");
             } catch (IOException ex) {
                 Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
             }
             System.exit(0);
-        }
-        else if(option == 0)
-        {           
+        } else if (exit_btn_click_count <= 0) {
+            JPanel panel = new JPanel();
+            JLabel label = new JLabel("Enter password : ");
+            JPasswordField pass = new JPasswordField(10);
+            String inputpass = "";
+            panel.add(label);
+            panel.add(pass);
+            String[] options = new String[]{"OK", "Cancel"};
+            int option = JOptionPane.showOptionDialog(this, panel, "Exit",
+                    JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
+                    null, options, options[0]);
+            if (option == 0) // pressing OK button
+            {
+                char[] password = pass.getPassword();
+                inputpass = new String(password);
+            }
+
+            subjects = db.getExamSubjects();
+            if (inputpass.equals(subjects[sub_id].getExitPassword()) && option == 0) {
+                db.setStudCount(sub_id, 2);
+                try {
+                    Runtime.getRuntime().exec("C:/Windows/explorer.exe");
+                } catch (IOException ex) {
+                    Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.exit(0);
+            } else if (option == 0) {
                 wrong_count++;
                 this.l_warning.setVisible(true);
                 this.l_attempt_count.setText(String.valueOf(wrong_count));
                 this.l_attempt_count.setVisible(true);
-                this.l_attempt_info.setVisible(true); 
-  
-            Thread t = new Thread() {
- 
-            public void run() {
-                int i = 0;
-                while (i <= 5) {
-                      Toolkit.getDefaultToolkit().beep(); 
-                    try {
-                        sleep(1000L);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(SplashScreen.class.getName()).log(Level.SEVERE, null, ex);
+                this.l_attempt_info.setVisible(true);
+
+                Thread t = new Thread() {
+
+                    public void run() {
+                        int i = 0;
+                        while (i <= 5) {
+                            Toolkit.getDefaultToolkit().beep();
+                            try {
+                                sleep(1000L);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(SplashScreen.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            i++;
+                        }
                     }
-                    i++;
-                }
+                };
+                t.start();
             }
-        };
-        t.start();
-        }
-        }
-        else
-        {   
+        } else {
             exit_btn_click_count--;
-            if(exit_btn_click_count !=0 )  
-            JOptionPane.showMessageDialog(this, "FOR EXAMINER ONLY - Click "+(exit_btn_click_count)+" more time(s)","Exit",JOptionPane.WARNING_MESSAGE);
-            else 
-            JOptionPane.showMessageDialog(this, "FOR EXAMINER ONLY","Exit",JOptionPane.WARNING_MESSAGE);    
+            if (exit_btn_click_count != 0) {
+                JOptionPane.showMessageDialog(this, "FOR EXAMINER ONLY - Click " + (exit_btn_click_count) + " more time(s)", "Exit", JOptionPane.WARNING_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "FOR EXAMINER ONLY", "Exit", JOptionPane.WARNING_MESSAGE);
+            }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -582,8 +572,8 @@ public class MainPage extends javax.swing.JFrame {
             //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
             /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
             * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-            */
-            
+             */
+
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
@@ -594,50 +584,46 @@ public class MainPage extends javax.swing.JFrame {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
         }
-  
-        
+
         //</editor-fold>
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new MainPage();              
+                new MainPage();
             }
         });
-   
-    }
-    
-    private void timer()
-    {
-        
-        javax.swing.Timer t = new javax.swing.Timer(1000, new ActionListener() {
-          public void actionPerformed(ActionEvent e) {
-              sec++;
-                if(sec/60 == 1)
-                {
-                min++;
-                sec = 0;
-                }
-                l_timer.setText(min+" : "+sec);
-          }
-       });
-       t.start();
-    }
-    
-   private WindowAdapter getWindowAdapter() {
-    return new WindowAdapter() {
-      @Override
-      public void windowIconified(WindowEvent we) {
-        browser_frame.setState(JFrame.NORMAL);
-        JOptionPane.showMessageDialog(browser_frame, "You cannot minimize this application","Attempt to Minimize",JOptionPane.WARNING_MESSAGE);
-      }
-    };
-  }
 
-public JLabel getConnectionLabel()
-{
-return l_connection;
-}
+    }
+
+    private void timer() {
+
+        javax.swing.Timer t = new javax.swing.Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                sec++;
+                if (sec / 60 == 1) {
+                    min++;
+                    sec = 0;
+                }
+                l_timer.setText(min + " : " + sec);
+            }
+        });
+        t.start();
+    }
+
+    private WindowAdapter getWindowAdapter() {
+        return new WindowAdapter() {
+            @Override
+            public void windowIconified(WindowEvent we) {
+                browser_frame.setState(JFrame.NORMAL);
+                JOptionPane.showMessageDialog(browser_frame, "You cannot minimize this application", "Attempt to Minimize", JOptionPane.WARNING_MESSAGE);
+            }
+        };
+    }
+
+    public JLabel getConnectionLabel() {
+        return l_connection;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_exam;
@@ -659,7 +645,5 @@ return l_connection;
     private javax.swing.JPanel p_browser;
     private javax.swing.JPanel p_main;
     // End of variables declaration//GEN-END:variables
-
- 
 
 }

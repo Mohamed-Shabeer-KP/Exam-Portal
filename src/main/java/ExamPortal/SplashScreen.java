@@ -15,18 +15,20 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
- 
+
 public class SplashScreen extends JFrame {
- 
+
     private JLabel imglabel;
     private ImageIcon img;
     private static JProgressBar pbar;
     Thread t = null;
-    int x,y,z;
- 
+    int x, y, z;
+
     public SplashScreen() throws IOException {
         super("SplashScreen");
-        x=1000; y=450; z=30;
+        x = 1000;
+        y = 450;
+        z = 30;
         setSize(x, y);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -42,13 +44,13 @@ public class SplashScreen extends JFrame {
         pbar.setMaximum(100);
         pbar.setStringPainted(true);
         pbar.setForeground(Color.LIGHT_GRAY);
-        imglabel.setBounds(0, 0, x, y-20);
+        imglabel.setBounds(0, 0, x, y - 20);
         add(pbar);
         pbar.setPreferredSize(new Dimension(y, z));
-        pbar.setBounds(0, (y-20), x, (z-10));
- 
+        pbar.setBounds(0, (y - 20), x, (z - 10));
+
         Thread t = new Thread() {
- 
+
             public void run() {
                 int i = 0;
                 while (i <= 100) {
