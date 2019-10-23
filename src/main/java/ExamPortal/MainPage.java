@@ -390,7 +390,7 @@ public class MainPage extends javax.swing.JFrame {
                         if (sub_id == -1) {
                             JOptionPane.showMessageDialog(this, "Select a valid subject", "Invalid subject", JOptionPane.WARNING_MESSAGE);
                         } else {
-                            String login_pass = getPassword("Login - " + exam_subs[sub_id] + " Examination", "Login Password : ", this);
+                            String login_pass = getPassword("Login - " + exam_subs[sub_id] + " Examination", "Enter Login Password : ", this);
 
                             if (login_pass == null) {
                                 cursor = new Cursor(Cursor.DEFAULT_CURSOR);
@@ -422,7 +422,7 @@ public class MainPage extends javax.swing.JFrame {
                 //Indivitual Mode
                 case 0:
                     sub_id = 0;
-                    String login_pass = getPassword("Login - " + exam_subs[sub_id] + " Examination", "Login Password : ", this);
+                    String login_pass = getPassword("Login - " + exam_subs[sub_id] + " Examination", "Enter Login Password : ", this);
 
                     if (login_pass == null) {
                         cursor = new Cursor(Cursor.DEFAULT_CURSOR);
@@ -491,7 +491,7 @@ public class MainPage extends javax.swing.JFrame {
             }
             System.exit(0);
         } else if (exit_btn_click_count <= 0) {
-            String exitPass = getPassword("Enter password : ", "Exit Password : ", this);
+            String exitPass = getPassword("Exit Password", "Enter password : ", this);
             
             subjects = db.getExamSubjects();
             if (exitPass.equals(subjects[sub_id].getExitPassword())) {
