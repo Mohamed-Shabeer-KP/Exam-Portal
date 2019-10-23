@@ -26,6 +26,7 @@ public class SplashScreen extends JFrame {
 
     public SplashScreen() throws IOException {
         super("SplashScreen");
+        setAppIcon();
         x = 1000;
         y = 450;
         z = 30;
@@ -65,5 +66,15 @@ public class SplashScreen extends JFrame {
             }
         };
         t.start();
+    }
+
+    private void setAppIcon() {
+        System.out.println("Setting Application Icon");
+        try {
+            Image i = ImageIO.read(getClass().getResource("/aep_icon.png"));
+            this.setIconImage(i);
+        } catch (IOException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

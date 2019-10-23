@@ -21,7 +21,7 @@ import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javax.imageio.ImageIO;
 import com.codebrig.journey.JourneyBrowserView;
 
 /**
@@ -45,7 +45,8 @@ public class MainPage extends javax.swing.JFrame {
      */
     public MainPage() {
 
-        initComponents();
+        setAppIcon();
+                        initComponents();
 
         sub_id = -1;
         wrong_count = 0;
@@ -357,6 +358,7 @@ public class MainPage extends javax.swing.JFrame {
     }
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+
         makeFrameFullSize(this);
     }//GEN-LAST:event_formWindowOpened
 
@@ -493,7 +495,7 @@ public class MainPage extends javax.swing.JFrame {
             System.exit(0);
         } else if (exit_btn_click_count <= 0) {
             String exitPass = getPassword("Exit Password", "Enter password : ", this);
-            
+
             subjects = db.getExamSubjects();
             if (exitPass.equals(subjects[sub_id].getExitPassword())) {
                 db.setStudCount(sub_id, 2);
@@ -503,7 +505,7 @@ public class MainPage extends javax.swing.JFrame {
                     Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 System.exit(0);
-            } else if (exitPass != null ) {
+            } else if (exitPass != null) {
                 wrong_count++;
                 this.l_warning.setVisible(true);
                 this.l_attempt_count.setText(String.valueOf(wrong_count));
@@ -618,6 +620,16 @@ public class MainPage extends javax.swing.JFrame {
 
     public JLabel getConnectionLabel() {
         return l_connection;
+    }
+
+    private void setAppIcon() {
+        System.out.println("Setting Application Icon");
+        try {
+            Image i = ImageIO.read(getClass().getResource("/aep_icon.png"));
+            this.setIconImage(i);
+        } catch (IOException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
