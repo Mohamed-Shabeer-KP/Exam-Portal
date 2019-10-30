@@ -138,14 +138,13 @@ public class MainPage extends javax.swing.JFrame {
         l_date.setPreferredSize(new java.awt.Dimension(200, 17));
 
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
-        jLabel2.setText("Go-Green MCA 2016");
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
         l_connection.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         l_connection.setForeground(new java.awt.Color(255, 0, 0));
         l_connection.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        l_connection.setText("!!! Internet Connection not available !!!");
+        l_connection.setText("x");
         l_connection.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         l_connection.setVisible(false);
 
@@ -215,7 +214,7 @@ public class MainPage extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
+            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,7 +226,7 @@ public class MainPage extends javax.swing.JFrame {
 
         l_warning.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         l_warning.setForeground(new java.awt.Color(255, 51, 51));
-        l_warning.setText("!!! Wrong Password !!!");
+        l_warning.setText("Wrong Password");
         l_warning.setVisible(false);
 
         l_attempt_count.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
@@ -295,7 +294,7 @@ public class MainPage extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(btn_exam, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())

@@ -70,24 +70,10 @@ public class WindowsSecurity implements Runnable {
 
                 if (netIsAvailable() == 1) {
                     exam_button.setVisible(false);
-                    Thread t = new Thread() {
-                        public void run() {
-                            if (internetcon_flag % 2 == 0) {
-                                con_label.setVisible(true);
-                            } else {
-                                con_label.setVisible(false);
-                            }
-                            internetcon_flag++;
-                        }
-                    };
-                    t.start();
+                    con_label.setVisible(true);
                 } else {
-                    if (internetcon_flag != 2) {
-                        exam_button.setVisible(true);
-                        con_label.setVisible(false);
-                        JOptionPane.showMessageDialog(b_frame, "Internet connection is active", "Internet Connection status", JOptionPane.INFORMATION_MESSAGE);
-                        internetcon_flag = 2;
-                    }
+                    exam_button.setVisible(true);
+                    con_label.setVisible(false);
                 }
 
                 db.getData();
@@ -123,7 +109,7 @@ public class WindowsSecurity implements Runnable {
                     pidInfo += line;
                 }
 
-                input.close(); 
+                input.close();
 
                 if (pidInfo.contains("Taskmgr.exe")) {
                     kill("Taskmgr.exe");
@@ -176,7 +162,7 @@ public class WindowsSecurity implements Runnable {
 
     private static int netIsAvailable() throws InterruptedException, IOException {
         Process p1 = java.lang.Runtime.getRuntime().exec("ping -n 1 www.google.com");
-        Thread.sleep(2000L);
+        Thread.sleep(5000L);
         int returnVal = p1.waitFor();
         return returnVal;
     }
