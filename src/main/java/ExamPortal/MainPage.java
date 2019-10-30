@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import com.codebrig.journey.JourneyBrowserView;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -362,125 +363,113 @@ public class MainPage extends javax.swing.JFrame {
 
     private void btn_examActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_examActionPerformed
 
-       // if (exam_btn_count == 0) {
-            Cursor cursor = new Cursor(Cursor.WAIT_CURSOR);
-            p_browser.setCursor(cursor);
+        Cursor cursor = new Cursor(Cursor.WAIT_CURSOR);
+        p_browser.setCursor(cursor);
 
-            exam_count = db.getExamCount();
-            Object[] exam_subs = new Object[exam_count];
-            subjects = db.getExamSubjects();
-            for (int i = 0; i < exam_count; i++) {
-                exam_subs[i] = subjects[i].getSubName();
-            }
+        exam_count = db.getExamCount();
+        Object[] exam_subs = new Object[exam_count];
+        subjects = db.getExamSubjects();
+        for (int i = 0; i < exam_count; i++) {
+            exam_subs[i] = subjects[i].getSubName();
+        }
 
-            switch (db.getAppMode()) {
-                //Multiple Mode
-                case 1:
-                    Object selectionObject = JOptionPane.showInputDialog(this, "Select Subject", "Examination", JOptionPane.QUESTION_MESSAGE, null, exam_subs, exam_subs[0]);
-                    if (selectionObject == null) {
-                        JOptionPane.showMessageDialog(this, "You should select a subject to continue.", "Subject not selected", JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        String selectionString = selectionObject.toString();
+        switch (db.getAppMode()) {
+            //Multiple Mode
+            case 1:
+                Object selectionObject = JOptionPane.showInputDialog(this, "Select Subject", "Examination", JOptionPane.QUESTION_MESSAGE, null, exam_subs, exam_subs[0]);
+                if (selectionObject == null) {
+                    JOptionPane.showMessageDialog(this, "You should select a subject to continue.", "Subject not selected", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    String selectionString = selectionObject.toString();
 
-                        for (int i = 0; i < exam_count; i++) {
-                            if (exam_subs[i].equals(selectionString)) {
-                                sub_id = i;
-                            }
-                        }
-
-                        if (sub_id == -1) {
-                            JOptionPane.showMessageDialog(this, "Select a valid subject", "Invalid subject", JOptionPane.WARNING_MESSAGE);
-                        } else {
-
-                            if (subjects[sub_id].exam_mode == 1) {
-                                String login_pass = getPassword("Login - " + exam_subs[sub_id], "Enter Login Password : ", this);
-
-                                if (login_pass == null) {
-                                    cursor = new Cursor(Cursor.DEFAULT_CURSOR);
-                                    p_browser.setCursor(cursor);
-                                    break;
-                                }
-                                plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass, subjects[sub_id].getExitPassword());// AES 256 DECIPHER -login_pass.equals(subjects[sub_id].getLoginPassword())
-                            } else {
-                                plain_exam_link = subjects[sub_id].getExamLink();
-                            }
-
-                            if (plain_exam_link != null) {
-                                subjects = db.getExamSubjects();
-                                db.setStudCount(sub_id, 1);
-                                db.ws.sub_id = sub_id;
-                                //exam_btn_count++;
-                                exit_flag = 1;
-                                createBrowser(plain_exam_link);
-                                timer();
-
-                                cursor = new Cursor(Cursor.DEFAULT_CURSOR);
-                                p_browser.setCursor(cursor);
-
-                                btn_exam.setText("RELOAD");
-                            } else {
-                                JOptionPane.showMessageDialog(this, "You have entered a wrong password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
-                                cursor = new Cursor(Cursor.DEFAULT_CURSOR);
-                                p_browser.setCursor(cursor);
-                            }
+                    for (int i = 0; i < exam_count; i++) {
+                        if (exam_subs[i].equals(selectionString)) {
+                            sub_id = i;
                         }
                     }
 
-                    break;
-                //Indivitual Mode
-                case 0:
-                    sub_id = 0;
-                    if (subjects[0].exam_mode == 1) {
-                        String login_pass = getPassword("Login - " + exam_subs[sub_id], "Enter Login Password : ", this);
+                    if (sub_id == -1) {
+                        JOptionPane.showMessageDialog(this, "Select a valid subject", "Invalid subject", JOptionPane.WARNING_MESSAGE);
+                    } else {
 
-                        if (login_pass == null) {
+                        if (subjects[sub_id].exam_mode == 1) {
+                            String login_pass = getPassword("Login - " + exam_subs[sub_id], "Enter Login Password : ", this);
+
+                            if (login_pass == null) {
+                                cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                                p_browser.setCursor(cursor);
+                                break;
+                            }
+                            plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass, subjects[sub_id].getExitPassword());// AES 256 DECIPHER -login_pass.equals(subjects[sub_id].getLoginPassword())
+                        } else {
+                            plain_exam_link = subjects[sub_id].getExamLink();
+                        }
+
+                        if (plain_exam_link != null) {
+                            if (exam_btn_count == 0) {
+                                db.setStudCount(sub_id, 1);
+                                timer();
+                            }
+                            subjects = db.getExamSubjects();
+                            db.ws.sub_id = sub_id;
+                            exam_btn_count++;
+                            exit_flag = 1;
+                            createBrowser(plain_exam_link);
+
                             cursor = new Cursor(Cursor.DEFAULT_CURSOR);
                             p_browser.setCursor(cursor);
-                            break;
+
+                            btn_exam.setText("RELOAD");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "You have entered a wrong password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
+                            cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                            p_browser.setCursor(cursor);
                         }
-                        plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass, subjects[sub_id].getExitPassword()); // AES256 Decipher
-                    } else {
-                        plain_exam_link = subjects[sub_id].getExamLink();
                     }
+                }
 
-                    if (plain_exam_link != null) {
-                        subjects = db.getExamSubjects();
-                        db.ws.sub_id = sub_id;
-                        //exam_btn_count++;
-                        exit_flag = 1;
+                break;
+            //Indivitual Mode
+            case 0:
+                sub_id = 0;
+                if (subjects[0].exam_mode == 1) {
+                    String login_pass = getPassword("Login - " + exam_subs[sub_id], "Enter Login Password : ", this);
+
+                    if (login_pass == null) {
+                        cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                        p_browser.setCursor(cursor);
+                        break;
+                    }
+                    plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass, subjects[sub_id].getExitPassword()); // AES256 Decipher
+                } else {
+                    plain_exam_link = subjects[sub_id].getExamLink();
+                }
+
+                if (plain_exam_link != null) {
+                    if (exam_btn_count == 0) {
                         db.setStudCount(sub_id, 1);
-                        createBrowser(plain_exam_link);
                         timer();
-
-                        cursor = new Cursor(Cursor.DEFAULT_CURSOR);
-                        p_browser.setCursor(cursor);
-
-                        btn_exam.setText("RELOAD");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "You have entered a wrong password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
-                        cursor = new Cursor(Cursor.DEFAULT_CURSOR);
-                        p_browser.setCursor(cursor);
                     }
-                    break;
-                default:
-                        JOptionPane.showMessageDialog(this, "Please Restart Application", "Unexpected Error", JOptionPane.WARNING_MESSAGE);
-                    break;
-            }
-        /*} else if (sub_id != -1) {
-            JPanel panel = new JPanel();
-            JLabel label = new JLabel("Are you sure you want to reload the page ?  ");
-            panel.add(label);
-            String[] options = new String[]{"OK", "Cancel"};
-            int option = JOptionPane.showOptionDialog(this, panel, "Refresh",
-                    JOptionPane.NO_OPTION, JOptionPane.WARNING_MESSAGE,
-                    null, options, options[0]);
-            if (option == 0) // pressing OK button
-            {
-                subjects = db.getExamSubjects();
-                db.ws.sub_id = sub_id;           
-                createBrowser(plain_exam_link);
-            }
-        }*/
+                    subjects = db.getExamSubjects();
+                    db.ws.sub_id = sub_id;
+                    exam_btn_count++;
+                    exit_flag = 1;
+                    createBrowser(plain_exam_link);
+
+                    cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                    p_browser.setCursor(cursor);
+
+                    btn_exam.setText("RELOAD");
+                } else {
+                    JOptionPane.showMessageDialog(this, "You have entered a wrong password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
+                    cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                    p_browser.setCursor(cursor);
+                }
+                break;
+            default:
+                JOptionPane.showMessageDialog(this, "Please Restart Application", "Unexpected Error", JOptionPane.WARNING_MESSAGE);
+                break;
+        }
     }//GEN-LAST:event_btn_examActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -570,9 +559,11 @@ public class MainPage extends javax.swing.JFrame {
 
     }
 
+    int count = 0;
+
     private void timer() {
 
-        javax.swing.Timer t = new javax.swing.Timer(1000, new ActionListener() {
+        /* javax.swing.Timer t = new javax.swing.Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 sec++;
                 if (sec / 60 == 1) {
@@ -582,7 +573,22 @@ public class MainPage extends javax.swing.JFrame {
                 l_timer.setText(min + " : " + sec);
             }
         });
-        t.start();
+        t.start();*/
+        Timer timer;
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                count++;
+
+                String min, sec;
+                min = String.valueOf(count / 60);
+                sec = String.valueOf(count % 60);
+                l_timer.setText(min + ":" + sec);
+            }
+        });
+        timer.setInitialDelay(0);
+        timer.start();
+
     }
 
     private WindowAdapter getWindowAdapter() {
