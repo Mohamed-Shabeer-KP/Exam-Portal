@@ -362,7 +362,7 @@ public class MainPage extends javax.swing.JFrame {
 
     private void btn_examActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_examActionPerformed
 
-        if (exam_btn_count == 0) {
+       // if (exam_btn_count == 0) {
             Cursor cursor = new Cursor(Cursor.WAIT_CURSOR);
             p_browser.setCursor(cursor);
 
@@ -409,7 +409,7 @@ public class MainPage extends javax.swing.JFrame {
                                 subjects = db.getExamSubjects();
                                 db.setStudCount(sub_id, 1);
                                 db.ws.sub_id = sub_id;
-                                exam_btn_count++;
+                                //exam_btn_count++;
                                 exit_flag = 1;
                                 createBrowser(plain_exam_link);
                                 timer();
@@ -419,7 +419,7 @@ public class MainPage extends javax.swing.JFrame {
 
                                 btn_exam.setText("RELOAD");
                             } else {
-                                JOptionPane.showMessageDialog(this, "Wrong Password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(this, "You have entered a wrong password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
                                 cursor = new Cursor(Cursor.DEFAULT_CURSOR);
                                 p_browser.setCursor(cursor);
                             }
@@ -446,7 +446,7 @@ public class MainPage extends javax.swing.JFrame {
                     if (plain_exam_link != null) {
                         subjects = db.getExamSubjects();
                         db.ws.sub_id = sub_id;
-                        exam_btn_count++;
+                        //exam_btn_count++;
                         exit_flag = 1;
                         db.setStudCount(sub_id, 1);
                         createBrowser(plain_exam_link);
@@ -457,30 +457,16 @@ public class MainPage extends javax.swing.JFrame {
 
                         btn_exam.setText("RELOAD");
                     } else {
-                        JOptionPane.showMessageDialog(this, "Wrong Password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "You have entered a wrong password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
                         cursor = new Cursor(Cursor.DEFAULT_CURSOR);
                         p_browser.setCursor(cursor);
                     }
                     break;
                 default:
-                    /*sub_id = 0;
-                    subjects = db.getExamSubjects();
-                    plain_exam_link = subjects[0].getExamLink();
-                    db.ws.sub_id = sub_id;
-                    exam_btn_count++;
-                    exit_flag = 0;
-                    db.setStudCount(sub_id, 1);
-                    createBrowser(plain_exam_link);
-                    timer();
-
-                    btn_exam.setText("RELOAD");
-
-                    cursor = new Cursor(Cursor.DEFAULT_CURSOR);
-                    p_browser.setCursor(cursor);
-*/ 
+                        JOptionPane.showMessageDialog(this, "Please Restart Application", "Unexpected Error", JOptionPane.WARNING_MESSAGE);
                     break;
             }
-        } else if (sub_id != -1) {
+        /*} else if (sub_id != -1) {
             JPanel panel = new JPanel();
             JLabel label = new JLabel("Are you sure you want to reload the page ?  ");
             panel.add(label);
@@ -491,10 +477,10 @@ public class MainPage extends javax.swing.JFrame {
             if (option == 0) // pressing OK button
             {
                 subjects = db.getExamSubjects();
-                db.ws.sub_id = sub_id;
+                db.ws.sub_id = sub_id;           
                 createBrowser(plain_exam_link);
             }
-        }
+        }*/
     }//GEN-LAST:event_btn_examActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
