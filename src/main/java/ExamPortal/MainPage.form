@@ -10,7 +10,6 @@
     </Property>
     <Property name="extendedState" type="int" value="2"/>
     <Property name="name" type="java.lang.String" value="main_frame" noResource="true"/>
-    <Property name="undecorated" type="boolean" value="true"/>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
@@ -313,7 +312,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Arial" size="13" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="EXAM"/>
+                <Property name="text" type="java.lang.String" value="CLICK HERE"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
                 </Property>
@@ -359,7 +358,7 @@
                       <Font name="Georgia" size="18" style="0"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="ASAS EXAM PORTAL "/>
+                    <Property name="text" type="java.lang.String" value="ASAS ONLINE PORTAL "/>
                   </Properties>
                 </Component>
               </SubComponents>

@@ -33,7 +33,7 @@ import javax.swing.SwingUtilities;
  */
 public class DatabaseOp implements Runnable {
 
-    private int exam_count, app_mode, exam_state, sub_id, stud_count;
+    private int exam_count, app_mode, exam_state, sub_id, stud_count, exam_mode;
     private String sub_name, exam_link, exit_password, login_password;
     private int internetcon_flag;
     private ExamSubject subjects[];
@@ -47,6 +47,7 @@ public class DatabaseOp implements Runnable {
     public DatabaseOp(JFrame f, JButton exam_button, JLabel con_label, JLabel timer_label, JLabel date_label, JPanel p_browser) {
         exam_count = 0;
         exam_state = 0;
+        exam_mode = 0;
         app_mode = 0;
         sub_name = "";
         exam_link = "";
@@ -151,7 +152,8 @@ public class DatabaseOp implements Runnable {
                     login_password = (String) dataSnapshot.child(String.valueOf(i)).child("login_password").getValue();
                     exit_password = (String) dataSnapshot.child(String.valueOf(i)).child("exit_password").getValue();
                     stud_count = Integer.parseInt((String) dataSnapshot.child(String.valueOf(i)).child("stud_count").getValue());
-
+                    exam_mode = Integer.parseInt((String) dataSnapshot.child(String.valueOf(i)).child("exam_mode").getValue());
+                    
                     subjects[i - 1] = new ExamSubject();
                     subjects[i - 1].setSubName(sub_name);
                     subjects[i - 1].setAppState(exam_state);
@@ -159,6 +161,7 @@ public class DatabaseOp implements Runnable {
                     subjects[i - 1].setLoginPassword(login_password);
                     subjects[i - 1].setExitPassword(exit_password);
                     subjects[i - 1].setStudCount(stud_count);
+                    subjects[i - 1].setExamMode(exam_mode);
                 }
             }
 

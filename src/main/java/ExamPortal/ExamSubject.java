@@ -17,6 +17,15 @@ public class ExamSubject {
     String sub_name;
     int stud_count;
     String login_password;
+    int exam_mode;
+
+    public void setExamMode(int exam_mode) {
+        this.exam_mode = exam_mode;
+    }
+
+    public int getExamMode() {
+        return exam_mode;
+    }
 
     public void setSubName(String sub_name) {
         this.sub_name = sub_name;

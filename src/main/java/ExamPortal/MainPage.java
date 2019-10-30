@@ -46,7 +46,7 @@ public class MainPage extends javax.swing.JFrame {
     public MainPage() {
 
         setAppIcon();
-                        initComponents();
+        initComponents();
 
         sub_id = -1;
         wrong_count = 0;
@@ -91,7 +91,6 @@ public class MainPage extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(2);
         setName("main_frame"); // NOI18N
-        setUndecorated(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -196,7 +195,7 @@ public class MainPage extends javax.swing.JFrame {
 
         btn_exam.setBackground(new java.awt.Color(153, 255, 153));
         btn_exam.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        btn_exam.setText("EXAM");
+        btn_exam.setText("CLICK HERE");
         btn_exam.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_exam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,7 +209,7 @@ public class MainPage extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("ASAS EXAM PORTAL ");
+        jLabel3.setText("ASAS ONLINE PORTAL ");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -393,15 +392,20 @@ public class MainPage extends javax.swing.JFrame {
                         if (sub_id == -1) {
                             JOptionPane.showMessageDialog(this, "Select a valid subject", "Invalid subject", JOptionPane.WARNING_MESSAGE);
                         } else {
-                            String login_pass = getPassword("Login - " + exam_subs[sub_id] + " Examination", "Enter Login Password : ", this);
 
-                            if (login_pass == null) {
-                                cursor = new Cursor(Cursor.DEFAULT_CURSOR);
-                                p_browser.setCursor(cursor);
-                                break;
+                            if (subjects[sub_id].exam_mode == 1) {
+                                String login_pass = getPassword("Login - " + exam_subs[sub_id] + " Examination", "Enter Login Password : ", this);
+
+                                if (login_pass == null) {
+                                    cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                                    p_browser.setCursor(cursor);
+                                    break;
+                                }
+                                plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass, subjects[sub_id].getExitPassword());// AES 256 DECIPHER -login_pass.equals(subjects[sub_id].getLoginPassword())
+                            } else {
+                                plain_exam_link = subjects[sub_id].getExamLink();
                             }
 
-                            plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass, subjects[sub_id].getExitPassword());// AES 256 DECIPHER -login_pass.equals(subjects[sub_id].getLoginPassword())
                             if (plain_exam_link != null) {
                                 subjects = db.getExamSubjects();
                                 db.setStudCount(sub_id, 1);
@@ -414,6 +418,7 @@ public class MainPage extends javax.swing.JFrame {
                                 cursor = new Cursor(Cursor.DEFAULT_CURSOR);
                                 p_browser.setCursor(cursor);
 
+                                btn_exam.setText("RELOAD");
                             } else {
                                 JOptionPane.showMessageDialog(this, "Wrong Password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
                                 cursor = new Cursor(Cursor.DEFAULT_CURSOR);
@@ -421,19 +426,24 @@ public class MainPage extends javax.swing.JFrame {
                             }
                         }
                     }
+
                     break;
                 //Indivitual Mode
                 case 0:
                     sub_id = 0;
-                    String login_pass = getPassword("Login - " + exam_subs[sub_id] + " Examination", "Enter Login Password : ", this);
+                    if (subjects[0].exam_mode == 1) {
+                        String login_pass = getPassword("Login - " + exam_subs[sub_id] + " Examination", "Enter Login Password : ", this);
 
-                    if (login_pass == null) {
-                        cursor = new Cursor(Cursor.DEFAULT_CURSOR);
-                        p_browser.setCursor(cursor);
-                        break;
+                        if (login_pass == null) {
+                            cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                            p_browser.setCursor(cursor);
+                            break;
+                        }
+                        plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass, subjects[sub_id].getExitPassword()); // AES256 Decipher
+                    } else {
+                        plain_exam_link = subjects[sub_id].getExamLink();
                     }
 
-                    plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass, subjects[sub_id].getExitPassword()); // AES256 Deciphe
                     if (plain_exam_link != null) {
                         subjects = db.getExamSubjects();
                         db.ws.sub_id = sub_id;
@@ -445,6 +455,8 @@ public class MainPage extends javax.swing.JFrame {
 
                         cursor = new Cursor(Cursor.DEFAULT_CURSOR);
                         p_browser.setCursor(cursor);
+
+                        btn_exam.setText("RELOAD");
                     } else {
                         JOptionPane.showMessageDialog(this, "Wrong Password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
                         cursor = new Cursor(Cursor.DEFAULT_CURSOR);
@@ -462,6 +474,8 @@ public class MainPage extends javax.swing.JFrame {
                     db.setStudCount(sub_id, 1);
                     createBrowser(plain_exam_link);
                     timer();
+
+                    btn_exam.setText("RELOAD");
 
                     cursor = new Cursor(Cursor.DEFAULT_CURSOR);
                     p_browser.setCursor(cursor);
