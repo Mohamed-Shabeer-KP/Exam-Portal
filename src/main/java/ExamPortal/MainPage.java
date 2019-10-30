@@ -393,7 +393,7 @@ public class MainPage extends javax.swing.JFrame {
                         } else {
 
                             if (subjects[sub_id].exam_mode == 1) {
-                                String login_pass = getPassword("Login - " + exam_subs[sub_id] + " Examination", "Enter Login Password : ", this);
+                                String login_pass = getPassword("Login - " + exam_subs[sub_id], "Enter Login Password : ", this);
 
                                 if (login_pass == null) {
                                     cursor = new Cursor(Cursor.DEFAULT_CURSOR);
@@ -530,9 +530,9 @@ public class MainPage extends javax.swing.JFrame {
         } else {
             exit_btn_click_count--;
             if (exit_btn_click_count != 0) {
-                JOptionPane.showMessageDialog(this, "FOR EXAMINER ONLY - Click " + (exit_btn_click_count) + " more time(s)", "Exit", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "FOR ADMIN ONLY - Click " + (exit_btn_click_count) + " more time(s)", "Exit", JOptionPane.WARNING_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "FOR EXAMINER ONLY", "Exit", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "FOR ADMIN ONLY", "Exit", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
