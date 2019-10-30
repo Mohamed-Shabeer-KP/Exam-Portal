@@ -478,7 +478,7 @@ public class MainPage extends javax.swing.JFrame {
 
                     cursor = new Cursor(Cursor.DEFAULT_CURSOR);
                     p_browser.setCursor(cursor);
-*/
+*/ 
                     break;
             }
         } else if (sub_id != -1) {
