@@ -431,7 +431,7 @@ public class MainPage extends javax.swing.JFrame {
                 case 0:
                     sub_id = 0;
                     if (subjects[0].exam_mode == 1) {
-                        String login_pass = getPassword("Login - " + exam_subs[sub_id] + " Examination", "Enter Login Password : ", this);
+                        String login_pass = getPassword("Login - " + exam_subs[sub_id], "Enter Login Password : ", this);
 
                         if (login_pass == null) {
                             cursor = new Cursor(Cursor.DEFAULT_CURSOR);
