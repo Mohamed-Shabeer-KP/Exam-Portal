@@ -465,7 +465,7 @@ public class MainPage extends javax.swing.JFrame {
                     break;
                 // open mode
                 default:
-                    sub_id = 0;
+                    /*sub_id = 0;
                     subjects = db.getExamSubjects();
                     plain_exam_link = subjects[0].getExamLink();
                     db.ws.sub_id = sub_id;
@@ -479,7 +479,7 @@ public class MainPage extends javax.swing.JFrame {
 
                     cursor = new Cursor(Cursor.DEFAULT_CURSOR);
                     p_browser.setCursor(cursor);
-
+*/
                     break;
             }
         } else if (sub_id != -1) {
