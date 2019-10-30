@@ -463,7 +463,6 @@ public class MainPage extends javax.swing.JFrame {
                         p_browser.setCursor(cursor);
                     }
                     break;
-                // open mode
                 default:
                     /*sub_id = 0;
                     subjects = db.getExamSubjects();
