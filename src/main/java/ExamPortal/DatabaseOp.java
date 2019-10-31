@@ -95,7 +95,7 @@ public class DatabaseOp implements Runnable {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     if (db.getExamCount() == 0 && internetcon_flag == 0) {
-                        JOptionPane.showMessageDialog(f, "There is no active examination", "Examination status", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(f, "There is no active session", "Session status", JOptionPane.INFORMATION_MESSAGE);
                         System.exit(0);
                     } else {
                         f.setVisible(true);

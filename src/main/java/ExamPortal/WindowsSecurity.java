@@ -73,7 +73,7 @@ public class WindowsSecurity implements Runnable {
                         @Override
                         public void actionPerformed(ActionEvent ae) {
                             db.setStudCount(sub_id, 0);
-                            JOptionPane.showMessageDialog(b_frame, "Examination is over", "Examination status", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(b_frame, "Session is Over", "Session Status", JOptionPane.INFORMATION_MESSAGE);
                         }
                     };
 
@@ -111,7 +111,6 @@ public class WindowsSecurity implements Runnable {
         } catch (Exception e) {
             System.out.println(e);
         }
-
     }
 
     public void setSubId(int sub_id) {

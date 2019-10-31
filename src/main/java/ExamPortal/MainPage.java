@@ -23,7 +23,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import com.codebrig.journey.JourneyBrowserView;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -70,13 +69,13 @@ public class MainPage extends javax.swing.JFrame {
         p_main = new javax.swing.JPanel();
         dskp_browser = new javax.swing.JDesktopPane();
         p_browser = new javax.swing.JPanel();
+        mainpage_icon = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         l_date = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
         l_connection = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        btn_exit = new javax.swing.JButton();
         btn_exam = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -92,6 +91,7 @@ public class MainPage extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(2);
         setName("main_frame"); // NOI18N
+        setUndecorated(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -104,9 +104,13 @@ public class MainPage extends javax.swing.JFrame {
 
         dskp_browser.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        p_browser.setBackground(new java.awt.Color(203, 255, 255));
+        p_browser.setBackground(new java.awt.Color(204, 204, 204));
         p_browser.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         p_browser.setLayout(new java.awt.BorderLayout());
+
+        mainpage_icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        mainpage_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aep_icon.png"))); // NOI18N
+        p_browser.add(mainpage_icon, java.awt.BorderLayout.CENTER);
 
         dskp_browser.setLayer(p_browser, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -138,26 +142,21 @@ public class MainPage extends javax.swing.JFrame {
         l_date.setMinimumSize(new java.awt.Dimension(200, 17));
         l_date.setPreferredSize(new java.awt.Dimension(200, 17));
 
-        jLabel2.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
+        l_connection.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
+        l_connection.setIcon(new javax.swing.ImageIcon("C:\\Users\\V3N0M\\Downloads\\Webp.net-resizeimage.png")); // NOI18N
+        l_connection.setVisible(false);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-
-        l_connection.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        l_connection.setForeground(new java.awt.Color(255, 0, 0));
-        l_connection.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        l_connection.setText("x");
-        l_connection.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        l_connection.setVisible(false);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(l_connection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 878, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(l_connection, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -170,26 +169,26 @@ public class MainPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(l_connection)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(l_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(l_connection, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(51, 102, 255), new java.awt.Color(0, 51, 51)));
         jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/exit.png"))); // NOI18N
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_exit.setBackground(new java.awt.Color(255, 255, 255));
+        btn_exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/exit.png"))); // NOI18N
+        btn_exit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_exitActionPerformed(evt);
             }
         });
 
@@ -280,7 +279,7 @@ public class MainPage extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_exit, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_exam, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -295,7 +294,7 @@ public class MainPage extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(btn_exit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(btn_exam, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -376,10 +375,8 @@ public class MainPage extends javax.swing.JFrame {
         switch (db.getAppMode()) {
             //Multiple Mode
             case 1:
-                Object selectionObject = JOptionPane.showInputDialog(this, "Select Subject", "Examination", JOptionPane.QUESTION_MESSAGE, null, exam_subs, exam_subs[0]);
-                if (selectionObject == null) {
-                    JOptionPane.showMessageDialog(this, "You should select a subject to continue.", "Subject not selected", JOptionPane.WARNING_MESSAGE);
-                } else {
+                Object selectionObject = JOptionPane.showInputDialog(this, "Select an option", "Portal Selection", JOptionPane.QUESTION_MESSAGE, null, exam_subs, exam_subs[0]);
+                if (selectionObject != null) {
                     String selectionString = selectionObject.toString();
 
                     for (int i = 0; i < exam_count; i++) {
@@ -389,7 +386,7 @@ public class MainPage extends javax.swing.JFrame {
                     }
 
                     if (sub_id == -1) {
-                        JOptionPane.showMessageDialog(this, "Select a valid subject", "Invalid subject", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Select a valid option", "Invalid Option", JOptionPane.WARNING_MESSAGE);
                     } else {
 
                         if (subjects[sub_id].exam_mode == 1) {
@@ -405,7 +402,7 @@ public class MainPage extends javax.swing.JFrame {
                             plain_exam_link = subjects[sub_id].getExamLink();
                         }
 
-                        if (plain_exam_link != null) {
+                        if (plain_exam_link != null && subjects[sub_id].getAppState() == 1) {
                             if (exam_btn_count == 0) {
                                 db.setStudCount(sub_id, 1);
                                 timer();
@@ -420,6 +417,10 @@ public class MainPage extends javax.swing.JFrame {
                             p_browser.setCursor(cursor);
 
                             btn_exam.setText("RELOAD");
+                        } else if (subjects[sub_id].getAppState() == 0) {
+                            JOptionPane.showMessageDialog(this, "The selected is currently Inactive", "Inactive Selection", JOptionPane.WARNING_MESSAGE);
+                            cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                            p_browser.setCursor(cursor);
                         } else {
                             JOptionPane.showMessageDialog(this, "You have entered a wrong password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
                             cursor = new Cursor(Cursor.DEFAULT_CURSOR);
@@ -445,7 +446,7 @@ public class MainPage extends javax.swing.JFrame {
                     plain_exam_link = subjects[sub_id].getExamLink();
                 }
 
-                if (plain_exam_link != null) {
+                if (plain_exam_link != null && subjects[sub_id].getAppState() == 1) {
                     if (exam_btn_count == 0) {
                         db.setStudCount(sub_id, 1);
                         timer();
@@ -460,6 +461,10 @@ public class MainPage extends javax.swing.JFrame {
                     p_browser.setCursor(cursor);
 
                     btn_exam.setText("RELOAD");
+                } else if (subjects[sub_id].getAppState() == 0) {
+                    JOptionPane.showMessageDialog(this, "The selected is currently Inactive", "Inactive Selection", JOptionPane.WARNING_MESSAGE);
+                    cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                    p_browser.setCursor(cursor);
                 } else {
                     JOptionPane.showMessageDialog(this, "You have entered a wrong password", "Invalid Password", JOptionPane.WARNING_MESSAGE);
                     cursor = new Cursor(Cursor.DEFAULT_CURSOR);
@@ -472,7 +477,7 @@ public class MainPage extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_examActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exitActionPerformed
         if (sub_id == -1 || exit_flag == 0) {
             try {
                 Runtime.getRuntime().exec("C:/Windows/explorer.exe");
@@ -524,7 +529,7 @@ public class MainPage extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "FOR ADMIN ONLY", "Exit", JOptionPane.WARNING_MESSAGE);
             }
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btn_exitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -562,18 +567,6 @@ public class MainPage extends javax.swing.JFrame {
     int count = 0;
 
     private void timer() {
-
-        /* javax.swing.Timer t = new javax.swing.Timer(1000, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                sec++;
-                if (sec / 60 == 1) {
-                    min++;
-                    sec = 0;
-                }
-                l_timer.setText(min + " : " + sec);
-            }
-        });
-        t.start();*/
         Timer timer;
         timer = new Timer(1000, new ActionListener() {
             @Override
@@ -638,9 +631,8 @@ public class MainPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_exam;
+    private javax.swing.JButton btn_exit;
     private javax.swing.JDesktopPane dskp_browser;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -653,6 +645,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JLabel l_date;
     private javax.swing.JLabel l_timer;
     private javax.swing.JLabel l_warning;
+    private javax.swing.JLabel mainpage_icon;
     private javax.swing.JPanel p_browser;
     private javax.swing.JPanel p_main;
     // End of variables declaration//GEN-END:variables
