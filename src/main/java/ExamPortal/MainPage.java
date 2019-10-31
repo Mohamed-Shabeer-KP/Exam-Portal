@@ -35,8 +35,7 @@ public class MainPage extends javax.swing.JFrame {
     private ExamSubject[] subjects;
     private int exit_btn_click_count, exam_btn_count;
     private DatabaseOp db;
-    private int min, sec;
-    public int sub_id;
+    public int sub_id,prev_sub_id;                         
 
     String plain_exam_link;
 
@@ -49,6 +48,7 @@ public class MainPage extends javax.swing.JFrame {
         initComponents();
 
         sub_id = -1;
+        prev_sub_id = -1;
         wrong_count = 0;
         exit_flag = 0;
         exit_btn_click_count = 3;
@@ -91,7 +91,6 @@ public class MainPage extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(2);
         setName("main_frame"); // NOI18N
-        setUndecorated(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -388,7 +387,6 @@ public class MainPage extends javax.swing.JFrame {
                     if (sub_id == -1) {
                         JOptionPane.showMessageDialog(this, "Select a valid option", "Invalid Option", JOptionPane.WARNING_MESSAGE);
                     } else {
-
                         if (subjects[sub_id].exam_mode == 1) {
                             String login_pass = getPassword("Login - " + exam_subs[sub_id], "Enter Login Password : ", this);
 
@@ -397,7 +395,9 @@ public class MainPage extends javax.swing.JFrame {
                                 p_browser.setCursor(cursor);
                                 break;
                             }
+
                             plain_exam_link = Decryption.decrypt(subjects[sub_id].getExamLink(), login_pass, subjects[sub_id].getExitPassword());// AES 256 DECIPHER -login_pass.equals(subjects[sub_id].getLoginPassword())
+
                         } else {
                             plain_exam_link = subjects[sub_id].getExamLink();
                         }
@@ -405,8 +405,23 @@ public class MainPage extends javax.swing.JFrame {
                         if (plain_exam_link != null && subjects[sub_id].getAppState() == 1) {
                             if (exam_btn_count == 0) {
                                 db.setStudCount(sub_id, 1);
+                                prev_sub_id = sub_id;
                                 timer();
+                            }else
+                            {
+                                if(prev_sub_id != sub_id)
+                                {
+                                    db.setStudCount(prev_sub_id, 2);
+                                    db.setStudCount(sub_id, 1);
+                                    prev_sub_id = sub_id;
+                                    try {
+                                        Thread.sleep(500L);
+                                    } catch (InterruptedException ex) {
+                                        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }
                             }
+                            
                             subjects = db.getExamSubjects();
                             db.ws.sub_id = sub_id;
                             exam_btn_count++;

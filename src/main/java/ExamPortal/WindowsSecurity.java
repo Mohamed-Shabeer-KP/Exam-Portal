@@ -150,7 +150,7 @@ public class WindowsSecurity implements Runnable {
 
     private static int netIsAvailable() throws InterruptedException, IOException {
         Process p1 = java.lang.Runtime.getRuntime().exec("ping -n 1 www.google.com");
-        Thread.sleep(5000L);
+        Thread.sleep(7000L);
         int returnVal = p1.waitFor();
         return returnVal;
     }
