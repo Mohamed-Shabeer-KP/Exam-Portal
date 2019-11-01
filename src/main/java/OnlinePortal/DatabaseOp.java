@@ -1,9 +1,11 @@
 package OnlinePortal;
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Developed By Boss Incorporated.
+ * Lead Developer - Mohamed Shabeer KP
+ * Team Developer - Suraj Suresh
+ * Team Tester - Anandhu Shaji
+ * Team Support - Unni Krishnan Si , B Vishnu
  */
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -153,7 +155,7 @@ public class DatabaseOp implements Runnable {
                     exit_password = (String) dataSnapshot.child(String.valueOf(i)).child("exit_password").getValue();
                     stud_count = Integer.parseInt((String) dataSnapshot.child(String.valueOf(i)).child("stud_count").getValue());
                     exam_mode = Integer.parseInt((String) dataSnapshot.child(String.valueOf(i)).child("exam_mode").getValue());
-                    
+
                     subjects[i - 1] = new ExamSubject();
                     subjects[i - 1].setSubName(sub_name);
                     subjects[i - 1].setAppState(exam_state);

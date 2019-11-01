@@ -1,9 +1,11 @@
 package OnlinePortal;
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Developed By Boss Incorporated.
+ * Lead Developer - Mohamed Shabeer KP
+ * Team Developer - Suraj Suresh
+ * Team Tester - Anandhu Shaji
+ * Team Support - Unni Krishnan Si , B Vishnu
  */
 import AES256.Decryption;
 
@@ -35,7 +37,7 @@ public class MainPage extends javax.swing.JFrame {
     private ExamSubject[] subjects;
     private int exit_btn_click_count, exam_btn_count;
     private DatabaseOp db;
-    public int sub_id,prev_sub_id;                         
+    public int sub_id, prev_sub_id;
 
     String plain_exam_link;
 
@@ -408,10 +410,8 @@ public class MainPage extends javax.swing.JFrame {
                                 db.setStudCount(sub_id, 1);
                                 prev_sub_id = sub_id;
                                 timer();
-                            }else
-                            {
-                                if(prev_sub_id != sub_id)
-                                {
+                            } else {
+                                if (prev_sub_id != sub_id) {
                                     db.setStudCount(prev_sub_id, 2);
                                     db.setStudCount(sub_id, 1);
                                     prev_sub_id = sub_id;
@@ -422,7 +422,7 @@ public class MainPage extends javax.swing.JFrame {
                                     }
                                 }
                             }
-                            
+
                             subjects = db.getExamSubjects();
                             db.ws.sub_id = sub_id;
                             exam_btn_count++;
