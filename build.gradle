@@ -11,10 +11,10 @@ sourceCompatibility = '1.8'
 // prefer. In this case NetBeans will not add these tasks but you may rely on
 // your own implementation.
 
-mainClassName = 'ExamPortal.MainPage'
+mainClassName = 'OnlinePortal.MainPage'
 
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'ExamPortal.MainPage'
+    ext.mainClass = 'OnlinePortal.MainPage'
 }
 
             repositories {
@@ -34,9 +34,9 @@ dependencies {
 }
 
 jar {
-    archiveName = 'ASAS-Exam-Portal.jar'
+    archiveName = 'ASAS-Online-Portal.jar'
 
-    manifest {attributes 'Main-Class': 'ExamPortal.MainPage'}
+    manifest {attributes 'Main-Class': 'OnlinePortal.MainPage'}
 
     from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {}
 }

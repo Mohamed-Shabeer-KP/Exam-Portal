@@ -1,4 +1,4 @@
-package ExamPortal;
+package OnlinePortal;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -91,6 +91,7 @@ public class MainPage extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setExtendedState(2);
         setName("main_frame"); // NOI18N
+        setUndecorated(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -142,7 +143,7 @@ public class MainPage extends javax.swing.JFrame {
         l_date.setPreferredSize(new java.awt.Dimension(200, 17));
 
         l_connection.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
-        l_connection.setIcon(new javax.swing.ImageIcon("C:\\Users\\V3N0M\\Downloads\\Webp.net-resizeimage.png")); // NOI18N
+        l_connection.setIcon(new javax.swing.ImageIcon(getClass().getResource("/conn_loss.png"))); // NOI18N
         l_connection.setVisible(false);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
@@ -294,7 +295,7 @@ public class MainPage extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_exit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(btn_exam, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );

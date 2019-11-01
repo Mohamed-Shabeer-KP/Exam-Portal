@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ExamPortal;
+package OnlinePortal;
 
 /**
  *
@@ -25,7 +25,7 @@ public class SplashScreen extends JFrame {
     int x, y, z;
 
     public SplashScreen() throws IOException {
-        super("SplashScreen");
+        super("ASAS Online Portal");
         setAppIcon();
         x = 1000;
         y = 450;
